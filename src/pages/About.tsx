@@ -8,18 +8,26 @@ const About = () => {
       <Navbar isLoggedIn={false} />
       
       <main className="flex-grow">
-        <section className="py-16 md:py-24 bg-gradient-to-b from-primary/10 to-transparent">
-          <div className="container mx-auto px-4">
+        <section 
+          className="relative py-32 md:py-40 bg-center bg-cover"
+          style={{
+            backgroundImage: "url('https://images.unsplash.com/photo-1469474968028-56623f02e42e')",
+          }}
+        >
+          <div className="absolute inset-0 bg-black/40" />
+          <div className="container relative mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">
-              <h1 className="text-4xl md:text-5xl font-bold text-primary mb-6">About GivingPacks</h1>
-              <p className="text-xl text-gray-700 mb-8">
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
+                About GivingPacks
+              </h1>
+              <p className="text-xl text-white/90 mb-8">
                 Dedicated to making a difference through technology and compassion
               </p>
             </div>
           </div>
         </section>
 
-        <section className="py-16">
+        <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto space-y-8">
               <div>
