@@ -32,22 +32,26 @@ const HowItWorks = () => {
     {
       icon: ShieldCheck,
       title: "Verified Projects",
-      description: "Each project undergoes thorough verification to ensure legitimacy and impact."
+      description: "Each project undergoes thorough verification to ensure legitimacy and impact.",
+      color: "from-purple-100 to-purple-50"
     },
     {
       icon: CircleDollarSign,
       title: "Transparent Funding",
-      description: "Track exactly how your donations are used and the impact they create."
+      description: "Track exactly how your donations are used and the impact they create.",
+      color: "from-blue-100 to-blue-50"
     },
     {
       icon: PackageCheck,
       title: "Direct Impact",
-      description: "Your contributions go directly to those in need, with minimal overhead."
+      description: "Your contributions go directly to those in need, with minimal overhead.",
+      color: "from-green-100 to-green-50"
     },
     {
       icon: HandHeart,
       title: "Community Focus",
-      description: "Build stronger communities through targeted local support."
+      description: "Build stronger communities through targeted local support.",
+      color: "from-orange-100 to-orange-50"
     }
   ];
 
@@ -98,13 +102,13 @@ const HowItWorks = () => {
           </div>
         </section>
 
-        <section className="py-20 bg-gradient-to-br from-primary/5 to-transparent">
+        <section className="py-20 bg-white">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="text-center mb-12"
+              className="text-center mb-16"
             >
               <h2 className="text-3xl font-bold mb-4">Why Choose GivingPacks?</h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
@@ -112,63 +116,26 @@ const HowItWorks = () => {
               </p>
             </motion.div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="space-y-8">
               {benefits.map((benefit, index) => (
                 <motion.div
                   key={benefit.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className={`flex flex-col md:flex-row ${index % 2 === 1 ? 'md:flex-row-reverse' : ''} items-center gap-8 p-8 rounded-2xl bg-gradient-to-br ${benefit.color}`}
                 >
-                  <Card className="h-full hover:shadow-lg transition-shadow">
-                    <CardContent className="p-6">
-                      <div className="flex flex-col items-center text-center">
-                        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                          <benefit.icon className="w-6 h-6 text-primary" />
-                        </div>
-                        <h3 className="text-lg font-semibold mb-2">{benefit.title}</h3>
-                        <p className="text-gray-600">{benefit.description}</p>
-                      </div>
-                    </CardContent>
-                  </Card>
+                  <div className="w-full md:w-1/3 flex justify-center">
+                    <div className="w-24 h-24 rounded-full bg-white shadow-lg flex items-center justify-center">
+                      <benefit.icon className="w-12 h-12 text-primary" />
+                    </div>
+                  </div>
+                  <div className="w-full md:w-2/3 text-center md:text-left">
+                    <h3 className="text-2xl font-semibold mb-3">{benefit.title}</h3>
+                    <p className="text-gray-700 text-lg">{benefit.description}</p>
+                  </div>
                 </motion.div>
               ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="py-20 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5 }}
-                className="text-center p-8 rounded-lg bg-gradient-to-br from-primary/10 to-transparent"
-              >
-                <h3 className="text-4xl font-bold text-primary mb-2">10K+</h3>
-                <p className="text-gray-600">Projects Funded</p>
-              </motion.div>
-              
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="text-center p-8 rounded-lg bg-gradient-to-br from-primary/10 to-transparent"
-              >
-                <h3 className="text-4xl font-bold text-primary mb-2">50K+</h3>
-                <p className="text-gray-600">Lives Impacted</p>
-              </motion.div>
-              
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-center p-8 rounded-lg bg-gradient-to-br from-primary/10 to-transparent"
-              >
-                <h3 className="text-4xl font-bold text-primary mb-2">95%</h3>
-                <p className="text-gray-600">Success Rate</p>
-              </motion.div>
             </div>
           </div>
         </section>
