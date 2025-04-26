@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
@@ -26,7 +25,7 @@ const Hero = () => {
                 asChild 
                 variant="outline" 
                 size="lg" 
-                className="border-white text-white hover:bg-white/10"
+                className="bg-primary/10 border-white text-white hover:bg-white hover:text-primary"
               >
                 <Link to="/how-it-works">Learn How It Works</Link>
               </Button>
