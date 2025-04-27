@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
@@ -64,7 +63,7 @@ const Login = () => {
               <h2 className={`text-2xl font-bold ${isAdmin ? "text-primary" : "text-gray-900"} transition-colors`}>
                 {isAdmin ? "Admin Login" : "Welcome back"}
               </h2>
-              <p className={`mt-2 ${isAdmin ? "text-primary-dark" : "text-gray-600"} transition-colors`}>
+              <p className={`mt-2 ${isAdmin ? "text-primary" : "text-gray-600"} transition-colors`}>
                 {isAdmin ? "Log in to your admin account" : "Log in to your account"}
               </p>
             </div>
@@ -135,7 +134,7 @@ const Login = () => {
             </form>
             
             <div className="mt-6 text-center text-sm">
-              <p className={`${isAdmin ? "text-primary-dark" : "text-gray-600"}`}>
+              <p className={`${isAdmin ? "text-primary" : "text-gray-600"}`}>
                 Don't have an account?{" "}
                 <Link to="/signup" className={`font-semibold ${isAdmin ? "text-primary hover:text-primary-dark" : "text-primary hover:text-primary-dark"}`}>
                   Sign up
