@@ -7,12 +7,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const Login = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -30,7 +32,17 @@ const Login = () => {
         description: "You have been logged in successfully.",
       });
       
-      navigate("/");
+      // Redirect based on user role
+      if (isAdmin) {
+        // Store the admin state in localStorage for persistence
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("isAdmin", "true");
+        navigate("/admin/dashboard");
+      } else {
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("isAdmin", "false");
+        navigate("/");
+      }
     } catch (error) {
       toast({
         title: "Login failed",
@@ -85,6 +97,17 @@ const Login = () => {
                   placeholder="••••••••"
                   required
                 />
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Checkbox 
+                  id="isAdmin" 
+                  checked={isAdmin}
+                  onCheckedChange={(checked) => setIsAdmin(checked === true)}
+                />
+                <Label htmlFor="isAdmin" className="text-sm font-normal">
+                  Login as an organization admin
+                </Label>
               </div>
               
               <Button
