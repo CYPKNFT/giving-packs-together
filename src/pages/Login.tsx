@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Checkbox } from "@/components/ui/checkbox";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -99,15 +98,17 @@ const Login = () => {
                 />
               </div>
 
-              <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="isAdmin" 
-                  checked={isAdmin}
-                  onCheckedChange={(checked) => setIsAdmin(checked === true)}
-                />
-                <Label htmlFor="isAdmin" className="text-sm font-normal">
-                  Login as an organization admin
-                </Label>
+              <div className="text-center">
+                <Link
+                  to="/admin/login"
+                  className="text-sm font-medium text-purple-600 hover:text-purple-800 transition-colors"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsAdmin(true);
+                  }}
+                >
+                  Login as an Organization Admin
+                </Link>
               </div>
               
               <Button
