@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
@@ -53,7 +54,7 @@ const Login = () => {
   };
 
   return (
-    <div className={`flex flex-col min-h-screen ${isAdmin ? "bg-primary-light" : "bg-white"}`}>
+    <div className={`flex flex-col min-h-screen ${isAdmin ? "bg-primary" : "bg-white"}`}>
       <Navbar isLoggedIn={false} />
       
       <main className="flex-grow flex items-center justify-center py-12 px-4">
@@ -78,7 +79,7 @@ const Login = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
                   required
-                  className={`${isAdmin ? "border-primary-light focus-visible:ring-primary" : ""}`}
+                  className={`${isAdmin ? "border-primary focus-visible:ring-primary" : ""}`}
                 />
               </div>
               
@@ -99,7 +100,7 @@ const Login = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
                   required
-                  className={`${isAdmin ? "border-primary-light focus-visible:ring-primary" : ""}`}
+                  className={`${isAdmin ? "border-primary focus-visible:ring-primary" : ""}`}
                 />
               </div>
 
