@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -24,15 +23,12 @@ const Navbar = ({ isLoggedIn: propIsLoggedIn, isAdmin: propIsAdmin = false }: Na
   const [userName, setUserName] = useState('User');
 
   useEffect(() => {
-    // Check localStorage for login status
     const storedIsLoggedIn = localStorage.getItem("isLoggedIn") === "true";
     const storedIsAdmin = localStorage.getItem("isAdmin") === "true";
     
-    // Update state based on localStorage
     setIsLoggedIn(propIsLoggedIn !== undefined ? propIsLoggedIn : storedIsLoggedIn);
     setIsAdmin(propIsAdmin !== undefined ? propIsAdmin : storedIsAdmin);
     
-    // Set a mock username - in a real app this would come from authentication
     if (storedIsLoggedIn) {
       setUserName(storedIsAdmin ? 'Admin' : 'User');
     }
@@ -47,7 +43,6 @@ const Navbar = ({ isLoggedIn: propIsLoggedIn, isAdmin: propIsAdmin = false }: Na
     localStorage.removeItem("isAdmin");
     setIsLoggedIn(false);
     setIsAdmin(false);
-    // Redirect is handled by the Link component
   };
 
   return (
@@ -57,7 +52,6 @@ const Navbar = ({ isLoggedIn: propIsLoggedIn, isAdmin: propIsAdmin = false }: Na
           <span className="text-primary font-bold text-2xl">GivingPacks</span>
         </Link>
 
-        {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-6">
           <Link to="/projects" className="text-gray-700 hover:text-primary font-medium">
             Projects
@@ -96,9 +90,6 @@ const Navbar = ({ isLoggedIn: propIsLoggedIn, isAdmin: propIsAdmin = false }: Na
                   <DropdownMenuItem asChild>
                     <Link to="/profile">Profile</Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link to="/settings">Settings</Link>
-                  </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild onClick={handleLogout}>
                     <Link to="/">Log Out</Link>
@@ -118,7 +109,6 @@ const Navbar = ({ isLoggedIn: propIsLoggedIn, isAdmin: propIsAdmin = false }: Na
           )}
         </div>
 
-        {/* Mobile Menu Button */}
         <div className="md:hidden">
           <Button variant="ghost" size="icon" onClick={toggleMenu} aria-label="Menu">
             {isMenuOpen ? <X /> : <Menu />}
@@ -126,7 +116,6 @@ const Navbar = ({ isLoggedIn: propIsLoggedIn, isAdmin: propIsAdmin = false }: Na
         </div>
       </div>
 
-      {/* Mobile Navigation */}
       {isMenuOpen && (
         <div className="md:hidden bg-white shadow-lg py-4">
           <div className="container mx-auto flex flex-col gap-4 px-4">
