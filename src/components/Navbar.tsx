@@ -1,19 +1,53 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, UserRound } from "lucide-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 type NavbarProps = {
-  isLoggedIn: boolean;
+  isLoggedIn?: boolean;
   isAdmin?: boolean;
 };
 
-const Navbar = ({ isLoggedIn, isAdmin = false }: NavbarProps) => {
+const Navbar = ({ isLoggedIn: propIsLoggedIn, isAdmin: propIsAdmin = false }: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(propIsLoggedIn);
+  const [isAdmin, setIsAdmin] = useState(propIsAdmin);
+  const [userName, setUserName] = useState('User');
+
+  useEffect(() => {
+    // Check localStorage for login status
+    const storedIsLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const storedIsAdmin = localStorage.getItem("isAdmin") === "true";
+    
+    // Update state based on localStorage
+    setIsLoggedIn(propIsLoggedIn !== undefined ? propIsLoggedIn : storedIsLoggedIn);
+    setIsAdmin(propIsAdmin !== undefined ? propIsAdmin : storedIsAdmin);
+    
+    // Set a mock username - in a real app this would come from authentication
+    if (storedIsLoggedIn) {
+      setUserName(storedIsAdmin ? 'Admin' : 'User');
+    }
+  }, [propIsLoggedIn, propIsAdmin]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("isAdmin");
+    setIsLoggedIn(false);
+    setIsAdmin(false);
+    // Redirect is handled by the Link component
   };
 
   return (
@@ -37,16 +71,40 @@ const Navbar = ({ isLoggedIn, isAdmin = false }: NavbarProps) => {
           {isLoggedIn ? (
             <>
               {isAdmin && (
-                <Link to="/admin" className="text-gray-700 hover:text-primary font-medium">
+                <Link to="/admin/dashboard" className="text-gray-700 hover:text-primary font-medium">
                   Admin Dashboard
                 </Link>
               )}
               <Link to="/dashboard" className="text-gray-700 hover:text-primary font-medium">
                 My Donations
               </Link>
-              <Button variant="outline" asChild>
-                <Link to="/logout">Log Out</Link>
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="icon" className="rounded-full">
+                    <Avatar className="h-8 w-8">
+                      <AvatarFallback className="bg-primary text-white">
+                        {userName.charAt(0)}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <div className="px-2 py-1.5 text-sm font-medium">
+                    {userName} {isAdmin && "(Admin)"}
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link to="/profile">Profile</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/settings">Settings</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild onClick={handleLogout}>
+                    <Link to="/">Log Out</Link>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </>
           ) : (
             <>
@@ -84,15 +142,21 @@ const Navbar = ({ isLoggedIn, isAdmin = false }: NavbarProps) => {
             {isLoggedIn ? (
               <>
                 {isAdmin && (
-                  <Link to="/admin" className="text-gray-700 hover:text-primary font-medium py-2" onClick={toggleMenu}>
+                  <Link to="/admin/dashboard" className="text-gray-700 hover:text-primary font-medium py-2" onClick={toggleMenu}>
                     Admin Dashboard
                   </Link>
                 )}
                 <Link to="/dashboard" className="text-gray-700 hover:text-primary font-medium py-2" onClick={toggleMenu}>
                   My Donations
                 </Link>
-                <Button variant="outline" className="w-full" asChild>
-                  <Link to="/logout">Log Out</Link>
+                <Link to="/profile" className="text-gray-700 hover:text-primary font-medium py-2" onClick={toggleMenu}>
+                  Profile
+                </Link>
+                <Link to="/settings" className="text-gray-700 hover:text-primary font-medium py-2" onClick={toggleMenu}>
+                  Settings
+                </Link>
+                <Button variant="outline" className="w-full" asChild onClick={handleLogout}>
+                  <Link to="/">Log Out</Link>
                 </Button>
               </>
             ) : (

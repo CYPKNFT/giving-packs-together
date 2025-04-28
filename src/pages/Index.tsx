@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from "@/components/Navbar";
@@ -11,18 +10,21 @@ import { mockCategories, mockFeaturedProjects } from "@/data/mockData";
 
 const Index = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [featuredCategories, setFeaturedCategories] = useState(mockCategories.slice(0, 3));
   const [featuredProjects, setFeaturedProjects] = useState(mockFeaturedProjects);
 
-  // Simulate checking login status
+  // Check login status from localStorage
   useEffect(() => {
-    // In a real app, you would check if the user is logged in
-    setIsLoggedIn(false);
+    const storedIsLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const storedIsAdmin = localStorage.getItem("isAdmin") === "true";
+    setIsLoggedIn(storedIsLoggedIn);
+    setIsAdmin(storedIsAdmin);
   }, []);
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar isLoggedIn={isLoggedIn} />
+      <Navbar isLoggedIn={isLoggedIn} isAdmin={isAdmin} />
       
       <main className="flex-grow">
         <Hero />
