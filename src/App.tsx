@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -14,6 +15,8 @@ import HowItWorks from "./pages/HowItWorks";
 import AdminDashboard from "./pages/AdminDashboard";
 import CreateProject from "./pages/CreateProject";
 import Profile from "./pages/Profile";
+import StartProject from "./pages/StartProject";
+import MyDonations from "./pages/MyDonations";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +37,8 @@ const App = () => (
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/create-project" element={<CreateProject />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/start-project" element={<StartProject />} />
+          <Route path="/dashboard" element={<MyDonations />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
