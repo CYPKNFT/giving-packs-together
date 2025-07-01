@@ -1,4 +1,3 @@
-
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import { useToast } from "@/hooks/use-toast";
@@ -15,6 +14,7 @@ import ItemNeeds, { Item } from "@/components/ItemNeeds";
 import DonationImpactCalculator from "@/components/DonationImpactCalculator";
 import { useAuth } from "@/contexts/AuthContext";
 import { Project } from "@/types/project";
+import TestimonialCarousel from "@/components/TestimonialCarousel";
 
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -162,52 +162,62 @@ const ProjectDetail = () => {
           </div>
         </div>
         
-        {/* About Organization Section with Project Details Tags */}
+        {/* About Organization Section */}
         <div className="container mx-auto px-4 py-8">
           <div className="bg-gray-50 p-8 rounded-lg border">
-            <h3 className="text-2xl font-bold mb-4">About {project.organization}</h3>
-            <p className="text-gray-700 mb-6 leading-relaxed">
-              {project.organizationDescription || 'A dedicated organization working to make a positive impact in the community through various outreach programs and initiatives.'}
-            </p>
-            
-            {/* Project Details as Tags */}
-            <div className="mb-6">
-              <h4 className="text-lg font-semibold mb-3">Project Details</h4>
-              <div className="flex flex-wrap gap-3">
-                <Badge variant="secondary" className="px-3 py-2 text-sm">
-                  <MapPin className="w-4 h-4 mr-2" />
-                  {project.location || project.organization}
-                </Badge>
-                <Badge variant="secondary" className="px-3 py-2 text-sm">
-                  <Users className="w-4 h-4 mr-2" />
-                  {project.beneficiaries || 'Community members'}
-                </Badge>
-                <Badge variant="secondary" className="px-3 py-2 text-sm">
-                  <Calendar className="w-4 h-4 mr-2" />
-                  {project.timeline || 'Ongoing'}
-                </Badge>
-                <Badge variant="outline" className="px-3 py-2 text-sm">
-                  Category: {project.categoryId || 'General'}
-                </Badge>
+            {/* Header with Title and Tags */}
+            <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-6">
+              <div className="lg:flex-1">
+                <h3 className="text-2xl font-bold mb-4">About {project.organization}</h3>
+                
+                {/* Project Details as Tags */}
+                <div className="flex flex-wrap gap-3 mb-4">
+                  <Badge variant="secondary" className="px-3 py-2 text-sm">
+                    <MapPin className="w-4 h-4 mr-2" />
+                    {project.location || project.organization}
+                  </Badge>
+                  <Badge variant="secondary" className="px-3 py-2 text-sm">
+                    <Users className="w-4 h-4 mr-2" />
+                    {project.beneficiaries || 'Community members'}
+                  </Badge>
+                  <Badge variant="secondary" className="px-3 py-2 text-sm">
+                    <Calendar className="w-4 h-4 mr-2" />
+                    {project.timeline || 'Ongoing'}
+                  </Badge>
+                  <Badge variant="outline" className="px-3 py-2 text-sm">
+                    Category: {project.categoryId || 'General'}
+                  </Badge>
+                </div>
               </div>
             </div>
 
-            {project.organizationWebsite && (
-              <Button asChild>
-                <a href={project.organizationWebsite} target="_blank" rel="noopener noreferrer">
-                  <ExternalLink className="w-4 h-4 mr-2" />
-                  Visit Website
-                </a>
-              </Button>
-            )}
+            {/* Content Layout: 70% text, 30% button */}
+            <div className="flex flex-col lg:flex-row gap-6">
+              <div className="lg:w-7/10 flex-1">
+                <p className="text-gray-700 leading-relaxed">
+                  {project.organizationDescription || 'A dedicated organization working to make a positive impact in the community through various outreach programs and initiatives.'}
+                </p>
+              </div>
+              
+              <div className="lg:w-3/10 lg:flex lg:justify-end lg:items-start">
+                {project.organizationWebsite && (
+                  <Button asChild className="w-full lg:w-auto">
+                    <a href={project.organizationWebsite} target="_blank" rel="noopener noreferrer">
+                      <ExternalLink className="w-4 h-4 mr-2" />
+                      Visit Website
+                    </a>
+                  </Button>
+                )}
+              </div>
+            </div>
           </div>
         </div>
         
-        {/* Items Needed and Impact Calculator Section */}
+        {/* Items Needed and Side Components Section */}
         <div className="container mx-auto px-4 py-12">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            {/* Items Needed - Takes 2/3 of the space */}
-            <div className="lg:col-span-2">
+            {/* Items Needed - Takes 1/3 of the space */}
+            <div className="lg:col-span-1">
               <h2 className="text-2xl font-bold mb-8">Items Needed</h2>
               
               <div className="space-y-6">
@@ -228,9 +238,19 @@ const ProjectDetail = () => {
               </div>
             </div>
 
-            {/* Impact Calculator - Takes 1/3 of the space */}
-            <div className="lg:col-span-1">
-              <DonationImpactCalculator />
+            {/* Side Components - Takes 2/3 of the space */}
+            <div className="lg:col-span-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Compact Impact Calculator */}
+                <div className="aspect-square">
+                  <DonationImpactCalculator />
+                </div>
+
+                {/* Testimonial Box */}
+                <div className="aspect-square">
+                  <TestimonialCarousel />
+                </div>
+              </div>
             </div>
           </div>
         </div>
