@@ -1,6 +1,7 @@
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ImpactStoriesSection from "@/components/ImpactStoriesSection";
 
 const About = () => {
   return (
@@ -63,6 +64,9 @@ const About = () => {
             </div>
           </div>
         </section>
+
+        {/* Impact Stories Section */}
+        <ImpactStoriesSection />
       </main>
 
       <Footer />

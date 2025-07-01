@@ -6,6 +6,7 @@ import CategoryCard from "@/components/CategoryCard";
 import ProjectCard from "@/components/ProjectCard";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ImpactStoriesSection from "@/components/ImpactStoriesSection";
 import { mockCategories, mockFeaturedProjects } from "@/data/mockData";
 
 const Index = () => {
@@ -83,6 +84,9 @@ const Index = () => {
             </div>
           </div>
         </section>
+
+        {/* Impact Stories Section */}
+        <ImpactStoriesSection />
       </main>
       
       <Footer />

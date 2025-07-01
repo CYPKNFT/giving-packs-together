@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, Heart, Package, DollarSign, Search } from "lucide-react";
-import ImpactStoriesSection from "@/components/ImpactStoriesSection";
+import CommunitySpotlight from "@/components/CommunitySpotlight";
 import UrgencyBanner from "@/components/UrgencyBanner";
 
 const MyDonations = () => {
@@ -131,12 +131,12 @@ const MyDonations = () => {
                   </CardContent>
                 </Card>
               </div>
+
+              {/* Community Spotlight Banner */}
+              <CommunitySpotlight />
             </div>
           </div>
         </section>
-
-        {/* Impact Stories Section */}
-        <ImpactStoriesSection />
 
         {/* Recent Donations Section */}
         <section className="py-12 bg-white">
