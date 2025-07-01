@@ -1,13 +1,13 @@
 
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from 'react';
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { mockProjects } from "@/data/mockData";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { MapPin, Calendar, Users, Heart, Share2 } from "lucide-react";
+import { MapPin, Calendar, Users, Heart, Share2, ArrowLeft } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProgressBar from "@/components/ProgressBar";
@@ -27,12 +27,17 @@ const ProjectDetail = () => {
     // Simulate fetching project data
     const fetchProject = async () => {
       try {
+        console.log("Fetching project with ID:", id);
+        console.log("Available projects:", mockProjects);
+        
         // In a real app, you would fetch data from an API
         const foundProject = mockProjects.find(p => p.id === id);
         
         if (foundProject) {
+          console.log("Found project:", foundProject);
           setProject(foundProject);
         } else {
+          console.log("Project not found for ID:", id);
           toast({
             title: "Error",
             description: "Project not found",
@@ -40,6 +45,7 @@ const ProjectDetail = () => {
           });
         }
       } catch (error) {
+        console.error("Error fetching project:", error);
         toast({
           title: "Error",
           description: "Failed to load project details",
@@ -50,7 +56,11 @@ const ProjectDetail = () => {
       }
     };
 
-    fetchProject();
+    if (id) {
+      fetchProject();
+    } else {
+      setLoading(false);
+    }
   }, [id, toast]);
 
   const handleDonateItem = (itemId: string, quantity: number) => {
@@ -88,7 +98,16 @@ const ProjectDetail = () => {
       <div className="flex flex-col min-h-screen">
         <Navbar />
         <main className="flex-grow flex items-center justify-center">
-          <div className="text-xl">Project not found</div>
+          <div className="text-center">
+            <h2 className="text-2xl font-bold mb-4">Project not found</h2>
+            <p className="text-gray-600 mb-6">The project you're looking for doesn't exist or has been moved.</p>
+            <Button asChild>
+              <Link to="/projects">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Projects
+              </Link>
+            </Button>
+          </div>
         </main>
         <Footer />
       </div>
@@ -100,6 +119,16 @@ const ProjectDetail = () => {
       <Navbar />
       
       <main className="flex-grow">
+        {/* Back Button */}
+        <div className="container mx-auto px-4 py-4">
+          <Button variant="ghost" asChild>
+            <Link to="/projects">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Projects
+            </Link>
+          </Button>
+        </div>
+
         {/* Project Hero */}
         <div className="bg-gray-100">
           <div className="container mx-auto px-4 py-8">
@@ -109,6 +138,9 @@ const ProjectDetail = () => {
                   src={project.imageUrl} 
                   alt={project.title} 
                   className="w-full rounded-lg shadow-md"
+                  onError={(e) => {
+                    e.currentTarget.src = 'https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=400';
+                  }}
                 />
               </div>
               
@@ -120,8 +152,8 @@ const ProjectDetail = () => {
                 <div className="mb-6">
                   <h3 className="text-lg font-semibold mb-2">Overall Progress</h3>
                   <ProgressBar 
-                    current={project.itemsFulfilled} 
-                    target={project.itemsNeeded}
+                    current={project.itemsFulfilled || 0} 
+                    target={project.itemsNeeded || 100}
                     label="Items Fulfilled" 
                   />
                 </div>
@@ -131,19 +163,19 @@ const ProjectDetail = () => {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <p className="text-sm text-gray-600">Category</p>
-                      <p className="font-medium">{project.category}</p>
+                      <p className="font-medium">{project.categoryId || 'General'}</p>
                     </div>
                     <div>
                       <p className="text-sm text-gray-600">Location</p>
-                      <p className="font-medium">{project.location}</p>
+                      <p className="font-medium">{project.location || project.organization}</p>
                     </div>
                     <div>
                       <p className="text-sm text-gray-600">Beneficiaries</p>
-                      <p className="font-medium">{project.beneficiaries}</p>
+                      <p className="font-medium">{project.beneficiaries || 'Community members'}</p>
                     </div>
                     <div>
                       <p className="text-sm text-gray-600">Timeline</p>
-                      <p className="font-medium">{project.timeline}</p>
+                      <p className="font-medium">{project.timeline || 'Ongoing'}</p>
                     </div>
                   </div>
                 </div>
@@ -160,13 +192,20 @@ const ProjectDetail = () => {
               <h2 className="text-2xl font-bold mb-8">Items Needed</h2>
               
               <div className="space-y-6">
-                {project.items.map((item: Item) => (
-                  <ItemNeeds 
-                    key={item.id} 
-                    item={item} 
-                    onDonate={handleDonateItem} 
-                  />
-                ))}
+                {project.items && project.items.length > 0 ? (
+                  project.items.map((item: Item) => (
+                    <ItemNeeds 
+                      key={item.id} 
+                      item={item} 
+                      onDonate={handleDonateItem} 
+                    />
+                  ))
+                ) : (
+                  <div className="text-center py-8 text-gray-500">
+                    <p>No specific items needed at this time.</p>
+                    <p className="text-sm mt-2">Monetary donations are always welcome!</p>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -178,12 +217,14 @@ const ProjectDetail = () => {
           
           <div className="mt-12 bg-gray-50 p-6 rounded-lg border">
             <h3 className="text-lg font-bold mb-3">About {project.organization}</h3>
-            <p className="mb-4">{project.organizationDescription}</p>
-            <Button asChild>
-              <a href={project.organizationWebsite} target="_blank" rel="noopener noreferrer">
-                Visit Website
-              </a>
-            </Button>
+            <p className="mb-4">{project.organizationDescription || 'A dedicated organization working to make a positive impact in the community.'}</p>
+            {project.organizationWebsite && (
+              <Button asChild>
+                <a href={project.organizationWebsite} target="_blank" rel="noopener noreferrer">
+                  Visit Website
+                </a>
+              </Button>
+            )}
           </div>
         </div>
       </main>

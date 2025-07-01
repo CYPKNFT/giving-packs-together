@@ -21,7 +21,7 @@ const About = () => {
                 About GivingPacks
               </h1>
               <p className="text-xl text-white/90 mb-8">
-                Dedicated to making a difference through technology and compassion
+                "For I was hungry and you gave me food, I was thirsty and you gave me drink, I was a stranger and you welcomed me." - Matthew 25:35
               </p>
             </div>
           </div>
@@ -31,23 +31,33 @@ const About = () => {
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto space-y-8">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Our Mission</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">Our Calling</h2>
                 <p className="text-gray-700 leading-relaxed">
-                  At GivingPacks, we are a dedicated group of technology professionals and philanthropists united by a common goal: leveraging technology to create meaningful impact in our communities. As a non-profit tech organization, we believe in the power of innovation to address social challenges and improve lives.
+                  GivingPacks exists to fulfill Christ's commandment to love our neighbors as ourselves. We are a community of believers and compassionate individuals united by the biblical principle of stewardship - recognizing that all we have comes from God and should be used to serve others. Our mission is to bridge the gap between those who have been blessed with resources and those in need, regardless of their background, race, or beliefs.
                 </p>
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">What Drives Us</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">Biblical Foundation</h2>
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  Our work is grounded in Scripture's clear call to care for "the least of these" (Matthew 25:40). We believe that faithful stewardship means using technology and innovation to multiply our impact, ensuring that every gift - whether time, talent, or treasure - reaches those who need it most effectively.
+                </p>
                 <p className="text-gray-700 leading-relaxed">
-                  We recognized a gap between charitable organizations and potential donors - a disconnect that often resulted in inefficient resource allocation and missed opportunities to help those in need. GivingPacks was born from our desire to bridge this gap using technology, making it easier for donors to contribute and for organizations to receive exactly what they need.
+                  "Each of you should use whatever gift you have received to serve others, as faithful stewards of God's grace in its various forms." - 1 Peter 4:10
                 </p>
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Our Approach</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">Our Heart for All People</h2>
                 <p className="text-gray-700 leading-relaxed">
-                  By creating a platform that directly connects donors with specific needs, we ensure that every contribution makes a meaningful impact. Our technology enables transparent, efficient, and targeted giving, transforming how charitable organizations receive and distribute resources to those who need them most.
+                  Following Christ's example of love without boundaries, GivingPacks serves all people - Christians and non-Christians alike. We believe that God's love is for everyone, and our platform connects generous hearts with urgent needs across all communities. Whether supporting a family in crisis, funding educational resources, or providing medical supplies, we see each act of giving as an opportunity to reflect God's love and grace to a hurting world.
+                </p>
+              </div>
+
+              <div className="bg-primary/10 p-6 rounded-lg">
+                <h3 className="text-lg font-bold text-primary mb-3">Our Prayer</h3>
+                <p className="text-gray-700 italic">
+                  "Lord, help us be faithful stewards of the resources You've entrusted to us. May this platform be a tool in Your hands to demonstrate Your love, provide for those in need, and bring hope to the hopeless. Use us to be Your hands and feet in a world that desperately needs Your touch."
                 </p>
               </div>
             </div>

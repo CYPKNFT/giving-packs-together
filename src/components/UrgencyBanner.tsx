@@ -2,6 +2,8 @@
 import { useState, useEffect } from "react";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Zap, Clock, Target } from "lucide-react";
 
 interface UrgencyBannerProps {
   show: boolean;
@@ -50,37 +52,55 @@ const UrgencyBanner = ({
   const remaining = targetAmount - currentAmount;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg">
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex-1">
-            <div className="flex items-center gap-2 mb-2">
-              <Badge variant="secondary" className="bg-white text-orange-600 font-bold">
-                URGENT
+    <div className="fixed bottom-0 left-0 right-0 z-50 backdrop-blur-md bg-gradient-to-r from-orange-500/90 to-red-500/90 text-white shadow-lg border-t border-white/20">
+      <div className="container mx-auto px-4 py-3">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              <div className="animate-pulse">
+                <Zap className="w-5 h-5 text-yellow-300" />
+              </div>
+              <Badge variant="secondary" className="bg-white/20 text-white font-bold border-white/30">
+                🎯 CHALLENGE
               </Badge>
-              <span className="font-bold text-lg">
-                {matchingFund ? "Double Your Impact!" : "Campaign Ending Soon!"}
-              </span>
             </div>
-            <p className="text-sm opacity-90">
-              {matchingFund 
-                ? "All donations matched until " + new Date(endDate).toLocaleDateString()
-                : `Help us reach our goal of $${targetAmount.toLocaleString()}`}
-            </p>
+            <div>
+              <span className="font-bold text-lg">
+                {matchingFund ? "🚀 Double Impact Challenge!" : "🎯 Final Sprint!"}
+              </span>
+              <p className="text-sm opacity-90">
+                {matchingFund 
+                  ? "Every $ = $2 impact until " + new Date(endDate).toLocaleDateString()
+                  : `Join the mission to reach $${targetAmount.toLocaleString()}`}
+              </p>
+            </div>
           </div>
           
-          <div className="flex items-center gap-6">
-            <div className="text-center">
-              <div className="text-2xl font-bold">{timeLeft}</div>
-              <div className="text-xs opacity-75">remaining</div>
-            </div>
-            
-            <div className="hidden md:block w-40">
-              <Progress value={progress} className="bg-white/20" />
-              <div className="text-xs mt-1 text-center">
-                ${remaining.toLocaleString()} to go
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-1 text-center">
+              <Clock className="w-4 h-4" />
+              <div>
+                <div className="text-lg font-bold">{timeLeft}</div>
+                <div className="text-xs opacity-75">left</div>
               </div>
             </div>
+            
+            <div className="hidden md:flex items-center gap-2">
+              <Target className="w-4 h-4" />
+              <div className="w-32">
+                <Progress value={progress} className="bg-white/20 h-2" />
+                <div className="text-xs mt-1 text-center">
+                  ${remaining.toLocaleString()} to go
+                </div>
+              </div>
+            </div>
+
+            <Button 
+              size="sm" 
+              className="bg-white text-orange-600 hover:bg-white/90 font-bold"
+            >
+              Join Challenge
+            </Button>
           </div>
         </div>
       </div>
