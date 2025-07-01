@@ -1,4 +1,3 @@
-
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import { useToast } from "@/hooks/use-toast";
@@ -17,14 +16,26 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Project } from "@/types/project";
 import TestimonialCarousel from "@/components/TestimonialCarousel";
 
+// Extended project type that includes items
+interface ExtendedProject extends Project {
+  items?: Item[];
+  category?: string;
+  location?: string;
+  beneficiaries?: string;
+  timeline?: string;
+  organizationDescription?: string;
+  organizationWebsite?: string;
+  categoryId?: string;
+}
+
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { toast } = useToast();
   const { user } = useAuth();
-  const [project, setProject] = useState<any | null>(null);
+  const [project, setProject] = useState<ExtendedProject | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Generate additional items to have 9 total (3 rows of 3)
+  // Generate additional items to have 12 total (4 rows of 3)
   const generateAdditionalItems = (existingItems: Item[]) => {
     const additionalItems = [
       {
@@ -33,7 +44,7 @@ const ProjectDetail = () => {
         description: "Personal care essentials for maintaining dignity and health",
         price: 12.99,
         imageUrl: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
-        current: 8,
+        current: 3,
         needed: 20
       },
       {
@@ -42,7 +53,7 @@ const ProjectDetail = () => {
         description: "Cozy blankets for comfort during cold nights",
         price: 24.99,
         imageUrl: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400",
-        current: 18,
+        current: 19,
         needed: 25
       },
       {
@@ -51,7 +62,7 @@ const ProjectDetail = () => {
         description: "Basic cooking utensils and supplies for new homes",
         price: 35.00,
         imageUrl: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
-        current: 3,
+        current: 8,
         needed: 15
       },
       {
@@ -60,7 +71,7 @@ const ProjectDetail = () => {
         description: "Educational materials for children in transitional housing",
         price: 18.50,
         imageUrl: "https://images.unsplash.com/photo-1456735190827-d1262f71b8a3?w=400",
-        current: 22,
+        current: 27,
         needed: 30
       },
       {
@@ -69,7 +80,7 @@ const ProjectDetail = () => {
         description: "Nutritious meal packages for families in need",
         price: 45.00,
         imageUrl: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=400",
-        current: 7,
+        current: 12,
         needed: 40
       },
       {
@@ -78,8 +89,35 @@ const ProjectDetail = () => {
         description: "Essential clothing items for all family members",
         price: 32.00,
         imageUrl: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=400",
-        current: 14,
+        current: 16,
         needed: 20
+      },
+      {
+        id: "project-1-item-10",
+        name: "Medical Kit",
+        description: "Basic first aid and medical supplies",
+        price: 28.50,
+        imageUrl: "https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?w=400",
+        current: 2,
+        needed: 18
+      },
+      {
+        id: "project-1-item-11",
+        name: "Baby Care Package",
+        description: "Essential items for infants and toddlers",
+        price: 42.00,
+        imageUrl: "https://images.unsplash.com/photo-1515488764276-beab7607c1e6?w=400",
+        current: 6,
+        needed: 12
+      },
+      {
+        id: "project-1-item-12",
+        name: "Job Interview Kit",
+        description: "Professional attire and accessories for job interviews",
+        price: 65.00,
+        imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400",
+        current: 14,
+        needed: 22
       }
     ];
     return [...existingItems, ...additionalItems];
@@ -111,7 +149,7 @@ const ProjectDetail = () => {
         
         if (foundProject) {
           console.log("Found project:", foundProject);
-          // Add more items to make 9 total
+          // Add more items to make 12 total
           const projectWithMoreItems = {
             ...foundProject,
             items: generateAdditionalItems(foundProject.items || [])
@@ -195,7 +233,7 @@ const ProjectDetail = () => {
     );
   }
 
-  const itemStatusCounts = getItemStatusCounts(project.items);
+  const itemStatusCounts = getItemStatusCounts(project.items || []);
 
   return (
     <div className="flex flex-col min-h-screen">
