@@ -1,13 +1,18 @@
-
+import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useToast } from "@/components/ui/use-toast";
+import { mockProjects } from "@/data/mockData";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { MapPin, Calendar, Users, Heart, Share2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProgressBar from "@/components/ProgressBar";
 import ItemNeeds, { Item } from "@/components/ItemNeeds";
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
-import { mockProjects } from "@/data/mockData";
+import { projects } from "@/data/mockData";
+import { Project } from "@/types/project";
 
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();

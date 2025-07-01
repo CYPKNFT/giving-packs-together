@@ -1,9 +1,10 @@
-
 import { motion } from "framer-motion";
 import { HandHelping, Search, Gift, Users, ShieldCheck, CircleDollarSign, PackageCheck, HandHeart } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const HowItWorks = () => {
   const steps = [
@@ -58,7 +59,7 @@ const HowItWorks = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar isLoggedIn={false} />
+      <Navbar />
       
       <main className="flex-grow">
         <section className="relative py-24 overflow-hidden bg-gradient-to-br from-primary/10 via-primary/5 to-transparent">

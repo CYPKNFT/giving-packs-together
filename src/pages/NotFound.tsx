@@ -1,13 +1,12 @@
-
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const NotFound = () => {
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar isLoggedIn={false} />
+      <Navbar />
       
       <main className="flex-grow flex items-center justify-center py-12 px-4">
         <div className="text-center">
