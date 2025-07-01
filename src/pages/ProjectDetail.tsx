@@ -1,3 +1,4 @@
+
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import { useToast } from "@/hooks/use-toast";
@@ -310,39 +311,25 @@ const ProjectDetail = () => {
         {/* Content Container with Compact About Section */}
         <div className="container mx-auto px-4 py-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-            {/* About Organization Section - Enhanced for Desktop and Tablet */}
+            {/* About Organization Section - Compact Design */}
             <div className="animate-fade-in">
               <Card className="h-full">
                 <CardContent className="p-6">
-                  {/* Header Section */}
+                  {/* Compact Header */}
                   <div className="mb-6">
                     <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-3">
                       <h3 className="text-2xl font-bold mb-2 lg:mb-0">About {project.organization}</h3>
                       
-                      {/* Contact Info - Tablet: Move button to top right */}
-                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 text-sm">
-                        <div className="flex items-center gap-3">
-                          <a href="tel:+1234567890" className="flex items-center text-primary hover:text-primary/80 transition-colors">
-                            <Phone className="w-4 h-4 mr-1" />
-                            (123) 456-7890
-                          </a>
-                          <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="flex items-center text-primary hover:text-primary/80 transition-colors">
-                            <Map className="w-4 h-4 mr-1" />
-                            View Location
-                          </a>
-                        </div>
-                        
-                        {/* Visit Website Button - Top right for tablet */}
-                        <div className="sm:ml-2">
-                          {project.organizationWebsite && (
-                            <Button asChild size="sm">
-                              <a href={project.organizationWebsite} target="_blank" rel="noopener noreferrer">
-                                <ExternalLink className="w-4 h-4 mr-2" />
-                                Visit Website
-                              </a>
-                            </Button>
-                          )}
-                        </div>
+                      {/* Contact Info - More Compact */}
+                      <div className="flex items-center gap-3 text-sm">
+                        <a href="tel:+1234567890" className="flex items-center text-primary hover:text-primary/80 transition-colors">
+                          <Phone className="w-4 h-4 mr-1" />
+                          (123) 456-7890
+                        </a>
+                        <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="flex items-center text-primary hover:text-primary/80 transition-colors">
+                          <Map className="w-4 h-4 mr-1" />
+                          View Location
+                        </a>
                       </div>
                     </div>
                     
@@ -350,49 +337,42 @@ const ProjectDetail = () => {
                     <div className="flex flex-wrap gap-2 mb-4">
                       <Badge variant="secondary" className="px-2 py-1 text-xs">
                         <MapPin className="w-3 h-3 mr-1" />
-                        {project.location || 'Local Community'}
+                        {project.location || project.organization}
                       </Badge>
                       <Badge variant="secondary" className="px-2 py-1 text-xs">
                         <Users className="w-3 h-3 mr-1" />
-                        {project.beneficiaries || 'Varies by project'}
+                        {project.beneficiaries || 'Community members'}
                       </Badge>
                       <Badge variant="secondary" className="px-2 py-1 text-xs">
                         <Calendar className="w-3 h-3 mr-1" />
                         {project.timeline || 'Ongoing'}
                       </Badge>
                       <Link 
-                        to={`/projects?category=${project.categoryId || 'category-2'}`}
+                        to={`/projects?category=${project.categoryId || 'general'}`}
                         className="inline-flex items-center rounded-full border px-2 py-1 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-foreground hover:bg-primary/10"
                       >
-                        Category: {project.categoryId || 'category-2'}
+                        Category: {project.categoryId || 'General'}
                       </Link>
                     </div>
                   </div>
 
-                  {/* Enhanced Content Layout with Photo for Desktop */}
+                  {/* Content Layout: Text and Button - More Compact */}
                   <div className="space-y-4">
-                    <div className="flex flex-col lg:flex-row gap-4">
-                      {/* Text Content */}
-                      <div className="lg:w-2/3">
-                        <p className="text-gray-700 leading-relaxed text-sm mb-4">
-                          Education for All is a nonprofit dedicated to making a positive impact in our community through various outreach programs and initiatives. We focus on providing comprehensive support services that address the root causes of educational inequality while building sustainable pathways to academic success.
-                        </p>
-                        <p className="text-gray-700 leading-relaxed text-sm">
-                          Our programs include after-school tutoring, scholarship opportunities, technology access, and mentorship programs that empower students from underserved communities to reach their full potential and break cycles of poverty through education.
-                        </p>
-                      </div>
-                      
-                      {/* Photo for Desktop - Hidden on mobile/tablet */}
-                      <div className="hidden lg:block lg:w-1/3">
-                        <img 
-                          src="https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=400&h=300&fit=crop"
-                          alt="Education for All program"
-                          className="w-full h-32 object-cover rounded-lg shadow-sm"
-                          onError={(e) => {
-                            e.currentTarget.src = 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=300&fit=crop';
-                          }}
-                        />
-                      </div>
+                    <div>
+                      <p className="text-gray-700 leading-relaxed text-sm">
+                        {project.organizationDescription || 'A dedicated organization working to make a positive impact in the community through various outreach programs and initiatives. We focus on providing comprehensive support services that address the root causes of homelessness while building sustainable pathways to independence.'}
+                      </p>
+                    </div>
+                    
+                    <div className="flex justify-end">
+                      {project.organizationWebsite && (
+                        <Button asChild size="sm">
+                          <a href={project.organizationWebsite} target="_blank" rel="noopener noreferrer">
+                            <ExternalLink className="w-4 h-4 mr-2" />
+                            Visit Website
+                          </a>
+                        </Button>
+                      )}
                     </div>
                   </div>
                 </CardContent>
