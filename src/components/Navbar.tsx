@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react';
+
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
-import { Menu, X, UserRound } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,39 +13,32 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-type NavbarProps = {
-  isLoggedIn?: boolean;
-  isAdmin?: boolean;
-};
-
-const Navbar = ({ isLoggedIn: propIsLoggedIn, isAdmin: propIsAdmin = false }: NavbarProps) => {
+const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(propIsLoggedIn);
-  const [isAdmin, setIsAdmin] = useState(propIsAdmin);
-  const [userName, setUserName] = useState('User');
-
-  useEffect(() => {
-    const storedIsLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-    const storedIsAdmin = localStorage.getItem("isAdmin") === "true";
-    
-    setIsLoggedIn(propIsLoggedIn !== undefined ? propIsLoggedIn : storedIsLoggedIn);
-    setIsAdmin(propIsAdmin !== undefined ? propIsAdmin : storedIsAdmin);
-    
-    if (storedIsLoggedIn) {
-      setUserName(storedIsAdmin ? 'Admin' : 'User');
-    }
-  }, [propIsLoggedIn, propIsAdmin]);
+  const { user, signOut, loading } = useAuth();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("isAdmin");
-    setIsLoggedIn(false);
-    setIsAdmin(false);
+  const handleLogout = async () => {
+    await signOut();
   };
+
+  if (loading) {
+    return (
+      <nav className="bg-white shadow-md">
+        <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+          <Link to="/" className="flex items-center gap-2">
+            <span className="text-primary font-bold text-2xl">GivingPacks</span>
+          </Link>
+          <div className="hidden md:flex items-center gap-6">
+            <div className="w-20 h-8 bg-gray-200 animate-pulse rounded"></div>
+          </div>
+        </div>
+      </nav>
+    );
+  }
 
   return (
     <nav className="bg-white shadow-md">
@@ -62,13 +57,8 @@ const Navbar = ({ isLoggedIn: propIsLoggedIn, isAdmin: propIsAdmin = false }: Na
           <Link to="/how-it-works" className="text-gray-700 hover:text-primary font-medium">
             How It Works
           </Link>
-          {isLoggedIn ? (
+          {user ? (
             <>
-              {isAdmin && (
-                <Link to="/admin/dashboard" className="text-gray-700 hover:text-primary font-medium">
-                  Admin Dashboard
-                </Link>
-              )}
               <Link to="/dashboard" className="text-gray-700 hover:text-primary font-medium">
                 My Donations
               </Link>
@@ -77,22 +67,22 @@ const Navbar = ({ isLoggedIn: propIsLoggedIn, isAdmin: propIsAdmin = false }: Na
                   <Button variant="outline" size="icon" className="rounded-full">
                     <Avatar className="h-8 w-8">
                       <AvatarFallback className="bg-primary text-white">
-                        {userName.charAt(0)}
+                        {user.email?.charAt(0).toUpperCase() || 'U'}
                       </AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <div className="px-2 py-1.5 text-sm font-medium">
-                    {userName} {isAdmin && "(Admin)"}
+                    {user.email}
                   </div>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
                     <Link to="/profile">Profile</Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild onClick={handleLogout}>
-                    <Link to="/">Log Out</Link>
+                  <DropdownMenuItem onClick={handleLogout}>
+                    Log Out
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -128,24 +118,16 @@ const Navbar = ({ isLoggedIn: propIsLoggedIn, isAdmin: propIsAdmin = false }: Na
             <Link to="/how-it-works" className="text-gray-700 hover:text-primary font-medium py-2" onClick={toggleMenu}>
               How It Works
             </Link>
-            {isLoggedIn ? (
+            {user ? (
               <>
-                {isAdmin && (
-                  <Link to="/admin/dashboard" className="text-gray-700 hover:text-primary font-medium py-2" onClick={toggleMenu}>
-                    Admin Dashboard
-                  </Link>
-                )}
                 <Link to="/dashboard" className="text-gray-700 hover:text-primary font-medium py-2" onClick={toggleMenu}>
                   My Donations
                 </Link>
                 <Link to="/profile" className="text-gray-700 hover:text-primary font-medium py-2" onClick={toggleMenu}>
                   Profile
                 </Link>
-                <Link to="/settings" className="text-gray-700 hover:text-primary font-medium py-2" onClick={toggleMenu}>
-                  Settings
-                </Link>
-                <Button variant="outline" className="w-full" asChild onClick={handleLogout}>
-                  <Link to="/">Log Out</Link>
+                <Button variant="outline" className="w-full" onClick={handleLogout}>
+                  Log Out
                 </Button>
               </>
             ) : (

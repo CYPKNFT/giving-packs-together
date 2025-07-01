@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CategoryCard from "@/components/CategoryCard";
@@ -9,16 +9,10 @@ import { Input } from "@/components/ui/input";
 import { mockCategories, mockProjects } from "@/data/mockData";
 
 const Projects = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [categories, setCategories] = useState(mockCategories);
   const [projects, setProjects] = useState(mockProjects);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
-
-  // Simulate checking login status
-  useEffect(() => {
-    setIsLoggedIn(false);
-  }, []);
 
   const filteredProjects = projects.filter(project => {
     const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -34,7 +28,7 @@ const Projects = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar isLoggedIn={isLoggedIn} />
+      <Navbar />
       
       <main className="flex-grow">
         {/* Hero Banner */}

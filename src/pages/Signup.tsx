@@ -5,13 +5,14 @@ import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
+import { useAuth } from "@/contexts/AuthContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const Signup = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { signUp } = useAuth();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -19,7 +20,6 @@ const Signup = () => {
     password: "",
     confirmPassword: ""
   });
-  const [isAdmin, setIsAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,21 +45,30 @@ const Signup = () => {
     setIsLoading(true);
 
     try {
-      // In a real app, you would call an API to register the user
-      // Simulate a registration request
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const { error } = await signUp(
+        formData.email,
+        formData.password,
+        formData.firstName,
+        formData.lastName
+      );
       
-      // Mock successful registration
-      toast({
-        title: "Account created!",
-        description: "Your account has been created successfully.",
-      });
-      
-      navigate("/login");
+      if (error) {
+        toast({
+          title: "Registration failed",
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Account created!",
+          description: "Please check your email to verify your account.",
+        });
+        navigate("/login");
+      }
     } catch (error) {
       toast({
         title: "Registration failed",
-        description: "There was an error creating your account. Please try again.",
+        description: "An unexpected error occurred. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -69,7 +78,7 @@ const Signup = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar isLoggedIn={false} />
+      <Navbar />
       
       <main className="flex-grow flex items-center justify-center py-12 px-4">
         <div className="w-full max-w-md bg-white rounded-lg shadow-md overflow-hidden">
@@ -138,17 +147,6 @@ const Signup = () => {
                   placeholder="••••••••"
                   required
                 />
-              </div>
-              
-              <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="isAdmin" 
-                  checked={isAdmin}
-                  onCheckedChange={(checked) => setIsAdmin(checked === true)}
-                />
-                <Label htmlFor="isAdmin" className="text-sm font-normal">
-                  I am registering as a charity/organization admin
-                </Label>
               </div>
               
               <Button

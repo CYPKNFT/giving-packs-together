@@ -2,6 +2,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,40 +12,135 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+interface Profile {
+  id: string;
+  first_name: string | null;
+  last_name: string | null;
+}
+
 const Profile = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user, loading: authLoading } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
-  const [userData, setUserData] = useState({
-    firstName: "John",
-    lastName: "Doe",
-    email: "john@example.com",
-    phone: "+1 (555) 123-4567"
+  const [loading, setLoading] = useState(true);
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: ""
   });
 
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-    if (!isLoggedIn) {
+    if (!authLoading && !user) {
       toast({
         title: "Access denied",
         description: "Please log in to view your profile.",
         variant: "destructive",
       });
       navigate("/login");
+      return;
     }
-  }, [navigate, toast]);
 
-  const handleSave = () => {
-    setIsEditing(false);
-    toast({
-      title: "Profile updated",
-      description: "Your profile has been updated successfully.",
-    });
+    if (user) {
+      fetchProfile();
+    }
+  }, [user, authLoading, navigate, toast]);
+
+  const fetchProfile = async () => {
+    if (!user) return;
+
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+
+      if (error) {
+        console.error('Error fetching profile:', error);
+        toast({
+          title: "Error",
+          description: "Failed to load profile data.",
+          variant: "destructive",
+        });
+      } else {
+        setProfile(data);
+        setFormData({
+          firstName: data.first_name || "",
+          lastName: data.last_name || ""
+        });
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  const handleSave = async () => {
+    if (!user) return;
+
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .update({
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', user.id);
+
+      if (error) {
+        toast({
+          title: "Error",
+          description: "Failed to update profile.",
+          variant: "destructive",
+        });
+      } else {
+        setProfile(prev => prev ? {
+          ...prev,
+          first_name: formData.firstName,
+          last_name: formData.lastName
+        } : null);
+        setIsEditing(false);
+        toast({
+          title: "Profile updated",
+          description: "Your profile has been updated successfully.",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  if (authLoading || loading) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-grow flex items-center justify-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return null; // Will redirect in useEffect
+  }
+
+  const displayName = profile ? `${profile.first_name || ''} ${profile.last_name || ''}`.trim() : '';
+  const initials = profile ? 
+    `${profile.first_name?.[0] || ''}${profile.last_name?.[0] || ''}`.toUpperCase() : 
+    user.email?.[0]?.toUpperCase() || 'U';
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar isLoggedIn={true} />
+      <Navbar />
       
       <main className="flex-grow container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
@@ -61,14 +158,14 @@ const Profile = () => {
               <div className="flex items-center gap-6 mb-8">
                 <Avatar className="h-24 w-24">
                   <AvatarFallback className="text-2xl bg-primary text-white">
-                    {userData.firstName[0]}{userData.lastName[0]}
+                    {initials}
                   </AvatarFallback>
                 </Avatar>
                 <div>
                   <h2 className="text-2xl font-semibold">
-                    {userData.firstName} {userData.lastName}
+                    {displayName || "No name set"}
                   </h2>
-                  <p className="text-gray-600">{userData.email}</p>
+                  <p className="text-gray-600">{user.email}</p>
                 </div>
               </div>
 
@@ -78,8 +175,8 @@ const Profile = () => {
                     <Label htmlFor="firstName">First Name</Label>
                     <Input
                       id="firstName"
-                      value={userData.firstName}
-                      onChange={(e) => setUserData({...userData, firstName: e.target.value})}
+                      value={formData.firstName}
+                      onChange={(e) => setFormData({...formData, firstName: e.target.value})}
                       disabled={!isEditing}
                     />
                   </div>
@@ -87,33 +184,21 @@ const Profile = () => {
                     <Label htmlFor="lastName">Last Name</Label>
                     <Input
                       id="lastName"
-                      value={userData.lastName}
-                      onChange={(e) => setUserData({...userData, lastName: e.target.value})}
+                      value={formData.lastName}
+                      onChange={(e) => setFormData({...formData, lastName: e.target.value})}
                       disabled={!isEditing}
                     />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={userData.email}
-                      onChange={(e) => setUserData({...userData, email: e.target.value})}
-                      disabled={!isEditing}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="phone">Phone</Label>
-                    <Input
-                      id="phone"
-                      value={userData.phone}
-                      onChange={(e) => setUserData({...userData, phone: e.target.value})}
-                      disabled={!isEditing}
-                    />
-                  </div>
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={user.email || ""}
+                    disabled
+                  />
                 </div>
 
                 {isEditing && (

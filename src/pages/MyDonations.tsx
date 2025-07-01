@@ -1,6 +1,5 @@
-
-import { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
+import { useAuth } from "@/contexts/AuthContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,18 +8,23 @@ import { Button } from "@/components/ui/button";
 import { Calendar, Heart, Package, DollarSign } from "lucide-react";
 
 const MyDonations = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const { user, loading } = useAuth();
 
-  useEffect(() => {
-    const storedIsLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-    const storedIsAdmin = localStorage.getItem("isAdmin") === "true";
-    setIsLoggedIn(storedIsLoggedIn);
-    setIsAdmin(storedIsAdmin);
-  }, []);
+  // Show loading state while checking authentication
+  if (loading) {
+    return (
+      <div className="flex flex-col min-h-screen">
+        <Navbar />
+        <main className="flex-grow flex items-center justify-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   // Redirect to login if not authenticated
-  if (!isLoggedIn) {
+  if (!user) {
     return <Navigate to="/login" replace />;
   }
 
@@ -66,7 +70,7 @@ const MyDonations = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar isLoggedIn={isLoggedIn} isAdmin={isAdmin} />
+      <Navbar />
       
       <main className="flex-grow">
         {/* Header Section */}
@@ -174,7 +178,7 @@ const MyDonations = () => {
                       Start making a difference by supporting projects that matter to you.
                     </p>
                     <Button asChild>
-                      <a href="/projects">Browse Projects</a>
+                      <Link to="/projects">Browse Projects</Link>
                     </Button>
                   </CardContent>
                 </Card>
