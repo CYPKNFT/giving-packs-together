@@ -1,3 +1,4 @@
+
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import { useToast } from "@/hooks/use-toast";
@@ -16,8 +17,16 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Project } from "@/types/project";
 import TestimonialCarousel from "@/components/TestimonialCarousel";
 
-// Extended project type that includes items
-interface ExtendedProject extends Project {
+// Extended project type for this component
+interface ProjectDetailData {
+  id: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+  organization: string;
+  categoryId?: string;
+  itemsFulfilled: number;
+  itemsNeeded: number;
   items?: Item[];
   category?: string;
   location?: string;
@@ -25,14 +34,17 @@ interface ExtendedProject extends Project {
   timeline?: string;
   organizationDescription?: string;
   organizationWebsite?: string;
-  categoryId?: string;
+  startDate?: Date;
+  endDate?: Date;
+  status?: 'draft' | 'active' | 'completed';
+  estimatedCost?: number;
 }
 
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { toast } = useToast();
   const { user } = useAuth();
-  const [project, setProject] = useState<ExtendedProject | null>(null);
+  const [project, setProject] = useState<ProjectDetailData | null>(null);
   const [loading, setLoading] = useState(true);
 
   // Generate additional items to have 12 total (4 rows of 3)
@@ -149,10 +161,10 @@ const ProjectDetail = () => {
         
         if (foundProject) {
           console.log("Found project:", foundProject);
-          // Add more items to make 12 total
-          const projectWithMoreItems = {
+          // Add more items to make 12 total and convert to our local type
+          const projectWithMoreItems: ProjectDetailData = {
             ...foundProject,
-            items: generateAdditionalItems(foundProject.items || [])
+            items: generateAdditionalItems((foundProject as any).items || [])
           };
           setProject(projectWithMoreItems);
         } else {
