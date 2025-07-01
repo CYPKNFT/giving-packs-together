@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -6,19 +7,26 @@ import { Plus, Eye, Edit, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { projects } from "@/data/mockData";
+import { projects, mockCategories } from "@/data/mockData";
 
 const AdminDashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("All");
 
+  // Helper function to get category name from categoryId
+  const getCategoryName = (categoryId: string) => {
+    const category = mockCategories.find(cat => cat.id === categoryId);
+    return category ? category.title : "Unknown";
+  };
+
   const filteredProjects = projects?.filter(project => {
+    const categoryName = getCategoryName(project.categoryId);
     const searchMatch = project.title.toLowerCase().includes(searchTerm.toLowerCase());
-    const categoryMatch = categoryFilter === "All" || project.category === categoryFilter;
+    const categoryMatch = categoryFilter === "All" || categoryName === categoryFilter;
     return searchMatch && categoryMatch;
   });
 
-  const categories = ["All", ...new Set(projects?.map(project => project.category))];
+  const categories = ["All", ...new Set(projects?.map(project => getCategoryName(project.categoryId)))];
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -37,10 +45,10 @@ const AdminDashboard = () => {
             <Card key={project.id}>
               <CardHeader>
                 <CardTitle>{project.title}</CardTitle>
-                <CardDescription>{project.location}</CardDescription>
+                <CardDescription>by {project.organization}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-2">
-                <Badge>{project.category}</Badge>
+                <Badge>{getCategoryName(project.categoryId)}</Badge>
                 <p>{project.description.substring(0, 100)}...</p>
                 <div className="flex justify-between items-center">
                   <div className="flex gap-2">
