@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Hero from "@/components/Hero";
@@ -5,7 +6,7 @@ import CategoryCard from "@/components/CategoryCard";
 import ProjectCard from "@/components/ProjectCard";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { projects } from "@/data/mockData";
+import { mockCategories, mockFeaturedProjects } from "@/data/mockData";
 
 const Index = () => {
   const categories = [
@@ -31,7 +32,7 @@ const Index = () => {
     },
   ];
 
-  const featuredProjects = projects?.slice(0, 3) || [];
+  const featuredProjects = mockFeaturedProjects || [];
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -44,8 +45,15 @@ const Index = () => {
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-gray-900 text-center mb-8">Explore Categories</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {categories.map((category, index) => (
-                <CategoryCard key={index} category={category} />
+              {mockCategories.map((category) => (
+                <CategoryCard 
+                  key={category.id} 
+                  id={category.id}
+                  title={category.title}
+                  description={category.description}
+                  imageUrl={category.imageUrl}
+                  projectCount={category.projectCount}
+                />
               ))}
             </div>
           </div>
@@ -61,7 +69,16 @@ const Index = () => {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {featuredProjects.map((project) => (
-                <ProjectCard key={project.id} project={project} />
+                <ProjectCard 
+                  key={project.id} 
+                  id={project.id}
+                  title={project.title}
+                  description={project.description}
+                  imageUrl={project.imageUrl}
+                  organization={project.organization}
+                  itemsFulfilled={project.itemsFulfilled}
+                  itemsNeeded={project.itemsNeeded}
+                />
               ))}
             </div>
           </div>

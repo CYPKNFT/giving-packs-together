@@ -1,3 +1,4 @@
+
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import { useToast } from "@/components/ui/use-toast";
@@ -11,13 +12,13 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProgressBar from "@/components/ProgressBar";
 import ItemNeeds, { Item } from "@/components/ItemNeeds";
-import { projects } from "@/data/mockData";
+import { useAuth } from "@/contexts/AuthContext";
 import { Project } from "@/types/project";
 
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { toast } = useToast();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { user } = useAuth();
   const [project, setProject] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -49,13 +50,10 @@ const ProjectDetail = () => {
     };
 
     fetchProject();
-    
-    // Simulate checking login status
-    setIsLoggedIn(false);
   }, [id, toast]);
 
   const handleDonateItem = (itemId: string, quantity: number) => {
-    if (!isLoggedIn) {
+    if (!user) {
       toast({
         title: "Login Required",
         description: "Please log in to donate items",
@@ -75,7 +73,7 @@ const ProjectDetail = () => {
   if (loading) {
     return (
       <div className="flex flex-col min-h-screen">
-        <Navbar isLoggedIn={isLoggedIn} />
+        <Navbar />
         <main className="flex-grow flex items-center justify-center">
           <div className="animate-pulse text-xl">Loading project details...</div>
         </main>
@@ -87,7 +85,7 @@ const ProjectDetail = () => {
   if (!project) {
     return (
       <div className="flex flex-col min-h-screen">
-        <Navbar isLoggedIn={isLoggedIn} />
+        <Navbar />
         <main className="flex-grow flex items-center justify-center">
           <div className="text-xl">Project not found</div>
         </main>
@@ -98,7 +96,7 @@ const ProjectDetail = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar isLoggedIn={isLoggedIn} />
+      <Navbar />
       
       <main className="flex-grow">
         {/* Project Hero */}

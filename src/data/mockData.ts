@@ -1,4 +1,3 @@
-
 export const mockCategories = [
   {
     id: "category-1",
@@ -144,3 +143,6 @@ mockProjects.forEach(project => {
     ]
   });
 });
+
+// Export projects for backward compatibility
+export const projects = mockProjects;
