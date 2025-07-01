@@ -1,3 +1,4 @@
+
 import { Navigate, Link } from 'react-router-dom';
 import { useAuth } from "@/contexts/AuthContext";
 import Navbar from "@/components/Navbar";
@@ -6,6 +7,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, Heart, Package, DollarSign } from "lucide-react";
+import PrimaryDonationCTA from "@/components/PrimaryDonationCTA";
+import ImpactStoriesSection from "@/components/ImpactStoriesSection";
+import UrgencyBanner from "@/components/UrgencyBanner";
+import DonationImpactCalculator from "@/components/DonationImpactCalculator";
 
 const MyDonations = () => {
   const { user, loading } = useAuth();
@@ -68,9 +73,33 @@ const MyDonations = () => {
 
   const totalProjects = donations.length;
 
+  // Mock urgency banner data - show if active campaigns need urgent support
+  const showUrgencyBanner = true; // In real app, this would be determined by API data
+  const urgencyEndDate = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(); // 5 days from now
+
+  const handleDonate = () => {
+    // In a real app, this would open donation modal or redirect to donation page
+    console.log("Opening donation form");
+    // For now, let's scroll to the impact calculator
+    const calculator = document.getElementById('impact-calculator');
+    if (calculator) {
+      calculator.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
+      
+      {/* Primary Donation CTA - Fixed at top */}
+      <PrimaryDonationCTA onDonate={handleDonate} />
+      
+      {/* Urgency Banner - Conditional */}
+      <UrgencyBanner 
+        show={showUrgencyBanner}
+        endDate={urgencyEndDate}
+        matchingFund={true}
+      />
       
       <main className="flex-grow">
         {/* Header Section */}
@@ -114,8 +143,22 @@ const MyDonations = () => {
                   </CardContent>
                 </Card>
               </div>
+            </div>
+          </div>
+        </section>
 
-              {/* Donations List */}
+        {/* Impact Stories Section */}
+        <ImpactStoriesSection />
+
+        {/* Donation Impact Calculator */}
+        <div id="impact-calculator">
+          <DonationImpactCalculator />
+        </div>
+
+        {/* Recent Donations Section */}
+        <section className="py-12 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
               <div className="space-y-6">
                 <h2 className="text-2xl font-bold mb-6">Recent Donations</h2>
                 
