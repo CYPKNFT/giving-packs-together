@@ -47,14 +47,14 @@ const ItemNeeds = ({ item, onDonate }: ItemNeedsProps) => {
   };
 
   return (
-    <Card className="overflow-hidden hover-scale hover:shadow-lg transition-all duration-300 h-full">
+    <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full">
       <CardContent className="p-6 h-full flex flex-col">
-        {/* Image Section */}
+        {/* Image Section - Removed hover scale */}
         <div className="w-full h-40 mb-4 overflow-hidden rounded-lg">
           <img 
             src={item.imageUrl} 
             alt={item.name} 
-            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+            className="w-full h-full object-cover transition-transform duration-300"
           />
         </div>
         
