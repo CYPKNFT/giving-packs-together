@@ -1,3 +1,4 @@
+
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import { useToast } from "@/hooks/use-toast";
@@ -6,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { MapPin, Calendar, Users, Heart, Share2, ArrowLeft, ExternalLink } from "lucide-react";
+import { MapPin, Calendar, Users, Heart, Share2, ArrowLeft, ExternalLink, Phone, Map } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProgressBar from "@/components/ProgressBar";
@@ -147,7 +148,9 @@ const ProjectDetail = () => {
               <div className="md:w-2/3">
                 <h1 className="text-3xl font-bold mb-2">{project.title}</h1>
                 <p className="text-gray-600 mb-4">by {project.organization}</p>
-                <p className="mb-6">{project.description}</p>
+                <p className="mb-6">
+                  {project.description} This program provides comprehensive support including temporary housing, job training, mental health services, and life skills coaching to ensure successful long-term transitions.
+                </p>
                 
                 <div className="mb-6">
                   <h3 className="text-lg font-semibold mb-2">Overall Progress</h3>
@@ -168,7 +171,21 @@ const ProjectDetail = () => {
             {/* Header with Title and Tags */}
             <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-6">
               <div className="lg:flex-1">
-                <h3 className="text-2xl font-bold mb-4">About {project.organization}</h3>
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-4">
+                  <h3 className="text-2xl font-bold">About {project.organization}</h3>
+                  
+                  {/* Contact Info */}
+                  <div className="flex items-center gap-4 mt-2 lg:mt-0">
+                    <a href="tel:+1234567890" className="flex items-center text-primary hover:text-primary/80">
+                      <Phone className="w-4 h-4 mr-1" />
+                      <span className="text-sm">(123) 456-7890</span>
+                    </a>
+                    <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="flex items-center text-primary hover:text-primary/80">
+                      <Map className="w-4 h-4 mr-1" />
+                      <span className="text-sm">View Location</span>
+                    </a>
+                  </div>
+                </div>
                 
                 {/* Project Details as Tags */}
                 <div className="flex flex-wrap gap-3 mb-4">
@@ -184,8 +201,10 @@ const ProjectDetail = () => {
                     <Calendar className="w-4 h-4 mr-2" />
                     {project.timeline || 'Ongoing'}
                   </Badge>
-                  <Badge variant="outline" className="px-3 py-2 text-sm">
-                    Category: {project.categoryId || 'General'}
+                  <Badge variant="outline" className="px-3 py-2 text-sm cursor-pointer hover:bg-primary/10" asChild>
+                    <Link to={`/projects?category=${project.categoryId || 'general'}`}>
+                      Category: {project.categoryId || 'General'}
+                    </Link>
                   </Badge>
                 </div>
               </div>
@@ -195,7 +214,7 @@ const ProjectDetail = () => {
             <div className="flex flex-col lg:flex-row gap-6">
               <div className="lg:w-7/10 flex-1">
                 <p className="text-gray-700 leading-relaxed">
-                  {project.organizationDescription || 'A dedicated organization working to make a positive impact in the community through various outreach programs and initiatives.'}
+                  {project.organizationDescription || 'A dedicated organization working to make a positive impact in the community through various outreach programs and initiatives. We focus on providing comprehensive support services that address the root causes of homelessness while building sustainable pathways to independence.'}
                 </p>
               </div>
               
@@ -218,7 +237,28 @@ const ProjectDetail = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Items Needed - Takes 1/3 of the space */}
             <div className="lg:col-span-1">
-              <h2 className="text-2xl font-bold mb-8">Items Needed</h2>
+              {/* Stats Header */}
+              <div className="mb-8">
+                <h2 className="text-2xl font-bold mb-4">Items Needed</h2>
+                <div className="bg-blue-50 p-4 rounded-lg space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">Program Participants:</span>
+                    <span className="font-semibold">45 families</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">Distribution Schedule:</span>
+                    <span className="font-semibold">Monthly</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">Next Distribution:</span>
+                    <span className="font-semibold">Dec 15, 2024</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">Items Collected:</span>
+                    <span className="font-semibold">{project.itemsFulfilled || 0} of {project.itemsNeeded || 100}</span>
+                  </div>
+                </div>
+              </div>
               
               <div className="space-y-6">
                 {project.items && project.items.length > 0 ? (

@@ -29,42 +29,64 @@ const DonationImpactCalculator = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // Calculate progress percentage for visual effect
+  const progressPercentage = Math.min((amount[0] / 500) * 100, 100);
+
   return (
-    <Card className="h-full">
-      <CardHeader className="text-center pb-4">
+    <Card className="h-full flex flex-col">
+      <CardHeader className="text-center pb-3">
         <CardTitle className="text-lg">Impact Calculator</CardTitle>
         <p className="text-xs text-gray-600">See your donation impact</p>
       </CardHeader>
-      <CardContent className="space-y-4 h-full flex flex-col">
-        <div className="flex-1">
-          <div className="flex justify-between items-center mb-3">
-            <label className="text-xs font-medium">Amount</label>
-            <span className="text-xl font-bold text-primary">${amount[0]}</span>
+      <CardContent className="flex flex-col flex-1 space-y-4">
+        {/* Amount Section */}
+        <div className="space-y-3">
+          <div className="flex justify-between items-center">
+            <label className="text-xs font-medium text-gray-700">Amount</label>
+            <span className="text-2xl font-bold text-primary">${amount[0]}</span>
           </div>
+          
           <Slider
             value={amount}
             onValueChange={setAmount}
             max={500}
             min={5}
             step={5}
-            className="w-full mb-2"
+            className="w-full"
           />
+          
           <div className="flex justify-between text-xs text-gray-500">
             <span>$5</span>
             <span>$500</span>
           </div>
+
+          {/* Progress Bar */}
+          <div className="space-y-2">
+            <div className="flex justify-between text-xs">
+              <span className="text-gray-600">Progress to Max Impact</span>
+              <span className="font-medium">{Math.round(progressPercentage)}%</span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2">
+              <div 
+                className="bg-gradient-to-r from-primary/60 to-primary h-2 rounded-full transition-all duration-300"
+                style={{ width: `${progressPercentage}%` }}
+              />
+            </div>
+          </div>
         </div>
         
-        <div className="bg-primary/10 p-4 rounded-lg text-center flex-1 flex flex-col justify-center">
-          <div className="text-primary font-semibold text-xs mb-2">Your Impact:</div>
-          <div className="text-sm font-medium text-gray-800 leading-tight">
+        {/* Impact Display */}
+        <div className="bg-primary/5 p-3 rounded-lg flex-1 flex flex-col justify-center">
+          <div className="text-primary font-semibold text-xs mb-2 text-center">Your Impact:</div>
+          <div className="text-sm font-medium text-gray-800 leading-snug text-center">
             {calculateImpact(amount[0])}
           </div>
         </div>
         
+        {/* Donate Button */}
         <Button 
           onClick={handleDonate}
-          className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-2 rounded-full text-sm"
+          className="w-full bg-primary hover:bg-primary/90 text-white font-semibold rounded-full text-sm"
           size="sm"
         >
           <Heart className="w-4 h-4 mr-2" />
