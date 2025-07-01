@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { MapPin, Calendar, Users, Heart, Share2, ArrowLeft } from "lucide-react";
+import { MapPin, Calendar, Users, Heart, Share2, ArrowLeft, ExternalLink } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProgressBar from "@/components/ProgressBar";
@@ -157,30 +157,49 @@ const ProjectDetail = () => {
                     label="Items Fulfilled" 
                   />
                 </div>
-                
-                <div className="bg-primary/10 p-4 rounded-lg">
-                  <h3 className="font-semibold mb-2">Project Details</h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <p className="text-sm text-gray-600">Category</p>
-                      <p className="font-medium">{project.categoryId || 'General'}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-600">Location</p>
-                      <p className="font-medium">{project.location || project.organization}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-600">Beneficiaries</p>
-                      <p className="font-medium">{project.beneficiaries || 'Community members'}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-600">Timeline</p>
-                      <p className="font-medium">{project.timeline || 'Ongoing'}</p>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
+          </div>
+        </div>
+        
+        {/* About Organization Section with Project Details Tags */}
+        <div className="container mx-auto px-4 py-8">
+          <div className="bg-gray-50 p-8 rounded-lg border">
+            <h3 className="text-2xl font-bold mb-4">About {project.organization}</h3>
+            <p className="text-gray-700 mb-6 leading-relaxed">
+              {project.organizationDescription || 'A dedicated organization working to make a positive impact in the community through various outreach programs and initiatives.'}
+            </p>
+            
+            {/* Project Details as Tags */}
+            <div className="mb-6">
+              <h4 className="text-lg font-semibold mb-3">Project Details</h4>
+              <div className="flex flex-wrap gap-3">
+                <Badge variant="secondary" className="px-3 py-2 text-sm">
+                  <MapPin className="w-4 h-4 mr-2" />
+                  {project.location || project.organization}
+                </Badge>
+                <Badge variant="secondary" className="px-3 py-2 text-sm">
+                  <Users className="w-4 h-4 mr-2" />
+                  {project.beneficiaries || 'Community members'}
+                </Badge>
+                <Badge variant="secondary" className="px-3 py-2 text-sm">
+                  <Calendar className="w-4 h-4 mr-2" />
+                  {project.timeline || 'Ongoing'}
+                </Badge>
+                <Badge variant="outline" className="px-3 py-2 text-sm">
+                  Category: {project.categoryId || 'General'}
+                </Badge>
+              </div>
+            </div>
+
+            {project.organizationWebsite && (
+              <Button asChild>
+                <a href={project.organizationWebsite} target="_blank" rel="noopener noreferrer">
+                  <ExternalLink className="w-4 h-4 mr-2" />
+                  Visit Website
+                </a>
+              </Button>
+            )}
           </div>
         </div>
         
@@ -213,18 +232,6 @@ const ProjectDetail = () => {
             <div className="lg:col-span-1">
               <DonationImpactCalculator />
             </div>
-          </div>
-          
-          <div className="mt-12 bg-gray-50 p-6 rounded-lg border">
-            <h3 className="text-lg font-bold mb-3">About {project.organization}</h3>
-            <p className="mb-4">{project.organizationDescription || 'A dedicated organization working to make a positive impact in the community.'}</p>
-            {project.organizationWebsite && (
-              <Button asChild>
-                <a href={project.organizationWebsite} target="_blank" rel="noopener noreferrer">
-                  Visit Website
-                </a>
-              </Button>
-            )}
           </div>
         </div>
       </main>
