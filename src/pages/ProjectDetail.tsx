@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { MapPin, Calendar, Users, Heart, Share2, ArrowLeft, ExternalLink, Phone, Map } from "lucide-react";
+import { MapPin, Calendar, Users, Heart, Share2, ArrowLeft, ExternalLink, Phone, Map, TrendingUp } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProgressBar from "@/components/ProgressBar";
@@ -24,6 +24,40 @@ const ProjectDetail = () => {
   const [project, setProject] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // Generate additional items to have 6 total
+  const generateAdditionalItems = (existingItems: Item[]) => {
+    const additionalItems = [
+      {
+        id: "project-1-item-4",
+        name: "Hygiene Kit",
+        description: "Personal care essentials for maintaining dignity and health",
+        price: 12.99,
+        imageUrl: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
+        current: 8,
+        needed: 20
+      },
+      {
+        id: "project-1-item-5",
+        name: "Warm Blanket",
+        description: "Cozy blankets for comfort during cold nights",
+        price: 24.99,
+        imageUrl: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400",
+        current: 12,
+        needed: 15
+      },
+      {
+        id: "project-1-item-6",
+        name: "Kitchen Starter Kit",
+        description: "Basic cooking utensils and supplies for new homes",
+        price: 35.00,
+        imageUrl: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
+        current: 3,
+        needed: 25
+      }
+    ];
+    return [...existingItems, ...additionalItems];
+  };
+
   useEffect(() => {
     // Simulate fetching project data
     const fetchProject = async () => {
@@ -36,7 +70,12 @@ const ProjectDetail = () => {
         
         if (foundProject) {
           console.log("Found project:", foundProject);
-          setProject(foundProject);
+          // Add more items to make 6 total
+          const projectWithMoreItems = {
+            ...foundProject,
+            items: generateAdditionalItems(foundProject.items || [])
+          };
+          setProject(projectWithMoreItems);
         } else {
           console.log("Project not found for ID:", id);
           toast({
@@ -148,17 +187,28 @@ const ProjectDetail = () => {
               <div className="md:w-1/2 animate-fade-in">
                 <h1 className="text-4xl font-bold mb-3">{project.title}</h1>
                 <p className="text-gray-600 mb-4 text-lg">by {project.organization}</p>
-                <p className="mb-8 text-lg leading-relaxed">
-                  {project.description} This program provides comprehensive support including temporary housing, job training, mental health services, and life skills coaching to ensure successful long-term transitions.
+                <p className="mb-6 text-lg leading-relaxed">
+                  {project.description} This comprehensive program provides essential support including temporary housing, job training, mental health services, and life skills coaching to ensure successful long-term transitions back into stable community living.
                 </p>
                 
                 <div className="mb-2">
                   <h3 className="text-xl font-semibold mb-4">Overall Progress</h3>
-                  <ProgressBar 
-                    current={project.itemsFulfilled || 0} 
-                    target={project.itemsNeeded || 100}
-                    label="Items Fulfilled" 
-                  />
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600 font-medium">
+                        {project.itemsFulfilled || 0}/{project.itemsNeeded || 100} items collected
+                      </span>
+                      <span className="text-sm font-bold text-primary">
+                        31%
+                      </span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                      <div 
+                        className="h-full bg-gradient-to-r from-orange-400 to-orange-500 rounded-full transition-all duration-500 ease-out"
+                        style={{ width: '31%' }}
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -238,27 +288,31 @@ const ProjectDetail = () => {
 
             {/* Stats and Side Components */}
             <div className="space-y-6">
-              {/* Stats Header */}
+              {/* Program Overview with Purple Styling */}
               <div className="animate-fade-in">
-                <Card className="hover-scale">
+                <Card className="hover-scale bg-primary text-white">
                   <CardContent className="p-6">
-                    <h2 className="text-2xl font-bold mb-4">Program Overview</h2>
+                    <h2 className="text-2xl font-bold mb-6 text-white">Program Overview</h2>
                     <div className="grid grid-cols-2 gap-4">
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-primary">45</div>
-                        <div className="text-sm text-gray-600">Families Served</div>
+                      <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg text-center">
+                        <div className="text-3xl font-bold text-white mb-1">45</div>
+                        <div className="text-sm text-white/80 mb-2">Families Served</div>
+                        <div className="flex items-center justify-center text-xs text-green-200">
+                          <TrendingUp className="w-3 h-3 mr-1" />
+                          +12% this month
+                        </div>
                       </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-primary">Monthly</div>
-                        <div className="text-sm text-gray-600">Distribution</div>
+                      <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg text-center">
+                        <div className="text-3xl font-bold text-white mb-1">Monthly</div>
+                        <div className="text-sm text-white/80">Distribution</div>
                       </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-primary">Dec 15</div>
-                        <div className="text-sm text-gray-600">Next Distribution</div>
+                      <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg text-center">
+                        <div className="text-3xl font-bold text-white mb-1">Dec 15</div>
+                        <div className="text-sm text-white/80">Next Distribution</div>
                       </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-primary">{project.itemsFulfilled || 0}/{project.itemsNeeded || 100}</div>
-                        <div className="text-sm text-gray-600">Items Collected</div>
+                      <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg text-center">
+                        <div className="text-3xl font-bold text-white mb-1">{project.itemsFulfilled || 0}/{project.itemsNeeded || 100}</div>
+                        <div className="text-sm text-white/80">Items Collected</div>
                       </div>
                     </div>
                   </CardContent>
@@ -277,29 +331,31 @@ const ProjectDetail = () => {
             </div>
           </div>
 
-          {/* Items Needed Section */}
-          <div className="animate-fade-in">
-            <h2 className="text-3xl font-bold mb-8 text-center">Items Needed</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {project.items && project.items.length > 0 ? (
-                project.items.map((item: Item, index: number) => (
-                  <div 
-                    key={item.id} 
-                    className="animate-fade-in"
-                    style={{ animationDelay: `${index * 0.1}s` }}
-                  >
-                    <ItemNeeds 
-                      item={item} 
-                      onDonate={handleDonateItem} 
-                    />
+          {/* Items Needed Section with Grey Background */}
+          <div className="bg-gray-100 -mx-4 px-4 py-12 rounded-lg animate-fade-in">
+            <div className="container mx-auto">
+              <h2 className="text-3xl font-bold mb-8 text-center">Items Needed</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {project.items && project.items.length > 0 ? (
+                  project.items.map((item: Item, index: number) => (
+                    <div 
+                      key={item.id} 
+                      className="animate-fade-in"
+                      style={{ animationDelay: `${index * 0.1}s` }}
+                    >
+                      <ItemNeeds 
+                        item={item} 
+                        onDonate={handleDonateItem} 
+                      />
+                    </div>
+                  ))
+                ) : (
+                  <div className="col-span-full text-center py-12 text-gray-500">
+                    <p className="text-lg">No specific items needed at this time.</p>
+                    <p className="text-sm mt-2">Monetary donations are always welcome!</p>
                   </div>
-                ))
-              ) : (
-                <div className="col-span-full text-center py-12 text-gray-500">
-                  <p className="text-lg">No specific items needed at this time.</p>
-                  <p className="text-sm mt-2">Monetary donations are always welcome!</p>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </div>
         </div>
