@@ -50,7 +50,7 @@ const UrgencyBanner = ({
   const remaining = targetAmount - currentAmount;
 
   return (
-    <div className="sticky top-32 z-30 bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg">
+    <div className="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg">
       <div className="container mx-auto px-4 py-4">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex-1">

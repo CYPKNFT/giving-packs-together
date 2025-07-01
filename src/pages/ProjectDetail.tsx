@@ -12,6 +12,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProgressBar from "@/components/ProgressBar";
 import ItemNeeds, { Item } from "@/components/ItemNeeds";
+import DonationImpactCalculator from "@/components/DonationImpactCalculator";
 import { useAuth } from "@/contexts/AuthContext";
 import { Project } from "@/types/project";
 
@@ -151,18 +152,28 @@ const ProjectDetail = () => {
           </div>
         </div>
         
-        {/* Item Needs Section */}
+        {/* Items Needed and Impact Calculator Section */}
         <div className="container mx-auto px-4 py-12">
-          <h2 className="text-2xl font-bold mb-8">Items Needed</h2>
-          
-          <div className="space-y-6">
-            {project.items.map((item: Item) => (
-              <ItemNeeds 
-                key={item.id} 
-                item={item} 
-                onDonate={handleDonateItem} 
-              />
-            ))}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            {/* Items Needed - Takes 2/3 of the space */}
+            <div className="lg:col-span-2">
+              <h2 className="text-2xl font-bold mb-8">Items Needed</h2>
+              
+              <div className="space-y-6">
+                {project.items.map((item: Item) => (
+                  <ItemNeeds 
+                    key={item.id} 
+                    item={item} 
+                    onDonate={handleDonateItem} 
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Impact Calculator - Takes 1/3 of the space */}
+            <div className="lg:col-span-1">
+              <DonationImpactCalculator />
+            </div>
           </div>
           
           <div className="mt-12 bg-gray-50 p-6 rounded-lg border">

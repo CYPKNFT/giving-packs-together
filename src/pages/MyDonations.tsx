@@ -6,11 +6,9 @@ import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Calendar, Heart, Package, DollarSign } from "lucide-react";
-import PrimaryDonationCTA from "@/components/PrimaryDonationCTA";
+import { Calendar, Heart, Package, DollarSign, Search } from "lucide-react";
 import ImpactStoriesSection from "@/components/ImpactStoriesSection";
 import UrgencyBanner from "@/components/UrgencyBanner";
-import DonationImpactCalculator from "@/components/DonationImpactCalculator";
 
 const MyDonations = () => {
   const { user, loading } = useAuth();
@@ -77,29 +75,9 @@ const MyDonations = () => {
   const showUrgencyBanner = true; // In real app, this would be determined by API data
   const urgencyEndDate = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(); // 5 days from now
 
-  const handleDonate = () => {
-    // In a real app, this would open donation modal or redirect to donation page
-    console.log("Opening donation form");
-    // For now, let's scroll to the impact calculator
-    const calculator = document.getElementById('impact-calculator');
-    if (calculator) {
-      calculator.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      
-      {/* Primary Donation CTA - Fixed at top */}
-      <PrimaryDonationCTA onDonate={handleDonate} />
-      
-      {/* Urgency Banner - Conditional */}
-      <UrgencyBanner 
-        show={showUrgencyBanner}
-        endDate={urgencyEndDate}
-        matchingFund={true}
-      />
       
       <main className="flex-grow">
         {/* Header Section */}
@@ -118,7 +96,7 @@ const MyDonations = () => {
         <section className="py-12 bg-white">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
                 <Card>
                   <CardContent className="p-6 text-center">
                     <DollarSign className="w-12 h-12 text-primary mx-auto mb-4" />
@@ -142,6 +120,16 @@ const MyDonations = () => {
                     <p className="text-gray-600">Lives Impacted</p>
                   </CardContent>
                 </Card>
+
+                <Card className="cursor-pointer hover:shadow-lg transition-shadow">
+                  <CardContent className="p-6 text-center">
+                    <Link to="/projects" className="block">
+                      <Search className="w-12 h-12 text-primary mx-auto mb-4" />
+                      <h3 className="text-lg font-bold mb-2">Explore</h3>
+                      <p className="text-gray-600">Find Projects</p>
+                    </Link>
+                  </CardContent>
+                </Card>
               </div>
             </div>
           </div>
@@ -149,11 +137,6 @@ const MyDonations = () => {
 
         {/* Impact Stories Section */}
         <ImpactStoriesSection />
-
-        {/* Donation Impact Calculator */}
-        <div id="impact-calculator">
-          <DonationImpactCalculator />
-        </div>
 
         {/* Recent Donations Section */}
         <section className="py-12 bg-white">
@@ -230,6 +213,13 @@ const MyDonations = () => {
           </div>
         </section>
       </main>
+      
+      {/* Urgency Banner - Fixed at bottom */}
+      <UrgencyBanner 
+        show={showUrgencyBanner}
+        endDate={urgencyEndDate}
+        matchingFund={true}
+      />
       
       <Footer />
     </div>
