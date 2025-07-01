@@ -39,58 +39,63 @@ const ItemNeeds = ({ item, onDonate }: ItemNeedsProps) => {
     return "Well Stocked";
   };
 
+  const getStatusColor = () => {
+    if (percentage < 25) return 'bg-red-500';
+    if (percentage < 50) return 'bg-orange-500';
+    if (percentage < 75) return 'bg-yellow-600';
+    return 'bg-green-500';
+  };
+
   return (
-    <Card className="overflow-hidden">
-      <CardContent className="p-4">
-        <div className="flex gap-4 items-start">
-          <div className="w-16 h-16 flex-shrink-0">
-            <img 
-              src={item.imageUrl} 
-              alt={item.name} 
-              className="w-full h-full object-cover rounded-md"
-            />
-          </div>
-          <div className="flex-1 min-w-0">
-            <h4 className="font-semibold text-sm mb-1">{item.name}</h4>
-            <p className="text-gray-600 text-xs mb-2 line-clamp-2">{item.description}</p>
-            <p className="text-primary font-medium text-xs mb-3">${item.price.toFixed(2)} per item</p>
-            
-            {/* Progress Section */}
-            <div className="space-y-2">
-              <div className="flex justify-between items-center text-xs">
-                <span className="text-gray-600">{item.current}/{item.needed} collected</span>
-                <span className={`font-medium px-2 py-1 rounded text-white text-xs ${
-                  percentage < 25 ? 'bg-red-500' :
-                  percentage < 50 ? 'bg-orange-500' :
-                  percentage < 75 ? 'bg-yellow-600' : 'bg-green-500'
-                }`}>
-                  {getProgressStatus()}
-                </span>
-              </div>
-              
-              <div className="relative">
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div 
-                    className={`h-2 rounded-full transition-all duration-300 ${getProgressColor()}`}
-                    style={{ width: `${percentage}%` }}
-                  />
-                </div>
-                <span className="absolute right-0 -top-5 text-xs font-medium text-gray-700">
-                  {percentage}%
-                </span>
-              </div>
+    <Card className="overflow-hidden hover-scale hover:shadow-lg transition-all duration-300 h-full">
+      <CardContent className="p-6 h-full flex flex-col">
+        {/* Image Section */}
+        <div className="w-full h-40 mb-4 overflow-hidden rounded-lg">
+          <img 
+            src={item.imageUrl} 
+            alt={item.name} 
+            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+        
+        {/* Content Section */}
+        <div className="flex-1 flex flex-col">
+          <h4 className="font-bold text-lg mb-2">{item.name}</h4>
+          <p className="text-gray-600 text-sm mb-3 line-clamp-2 flex-1">{item.description}</p>
+          <p className="text-primary font-bold text-lg mb-4">${item.price.toFixed(2)} per item</p>
+          
+          {/* Progress Section */}
+          <div className="space-y-3 mb-4">
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-gray-600 font-medium">
+                {item.current}/{item.needed} collected
+              </span>
+              <span className={`font-bold px-3 py-1 rounded-full text-white text-xs ${getStatusColor()}`}>
+                {getProgressStatus()}
+              </span>
             </div>
             
-            <div className="flex justify-end mt-3">
-              <Button 
-                onClick={handleDonate}
-                size="sm"
-                className="bg-primary hover:bg-primary/90 text-xs px-3 py-1 h-7"
-              >
-                Donate
-              </Button>
+            {/* Custom Progress Bar */}
+            <div className="relative">
+              <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
+                <div 
+                  className={`h-full rounded-full transition-all duration-500 ease-out ${getProgressColor()}`}
+                  style={{ width: `${percentage}%` }}
+                />
+              </div>
+              <span className="absolute right-2 top-0 text-xs font-bold text-white leading-4">
+                {percentage}%
+              </span>
             </div>
           </div>
+          
+          {/* Donate Button */}
+          <Button 
+            onClick={handleDonate}
+            className="w-full bg-primary hover:bg-primary/90 text-white font-semibold rounded-lg transition-all duration-200 hover:shadow-md"
+          >
+            <span className="mr-2">💝</span> Donate Item
+          </Button>
         </div>
       </CardContent>
     </Card>
