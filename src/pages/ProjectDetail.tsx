@@ -201,11 +201,12 @@ const ProjectDetail = () => {
                     <Calendar className="w-4 h-4 mr-2" />
                     {project.timeline || 'Ongoing'}
                   </Badge>
-                  <Badge variant="outline" className="px-3 py-2 text-sm cursor-pointer hover:bg-primary/10" asChild>
-                    <Link to={`/projects?category=${project.categoryId || 'general'}`}>
-                      Category: {project.categoryId || 'General'}
-                    </Link>
-                  </Badge>
+                  <Link 
+                    to={`/projects?category=${project.categoryId || 'general'}`}
+                    className="inline-flex items-center rounded-full border px-3 py-2 text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-foreground hover:bg-primary/10"
+                  >
+                    Category: {project.categoryId || 'General'}
+                  </Link>
                 </div>
               </div>
             </div>
