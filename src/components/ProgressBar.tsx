@@ -8,14 +8,14 @@ interface ProgressBarProps {
 const ProgressBar = ({ current, target, label }: ProgressBarProps) => {
   const percentage = Math.min(Math.round((current / target) * 100), 100);
   
-  // Determine status based on percentage
-  const getProgressStatus = () => {
-    if (percentage < 30) return "danger";
-    if (percentage < 70) return "warning";
-    return "success";
+  // Determine progress color based on percentage
+  const getProgressColor = () => {
+    if (percentage < 30) return "bg-destructive";
+    if (percentage < 70) return "bg-orange-500";
+    return "bg-green-500";
   };
   
-  const status = getProgressStatus();
+  const progressColor = getProgressColor();
 
   return (
     <div className="w-full">
@@ -27,9 +27,9 @@ const ProgressBar = ({ current, target, label }: ProgressBarProps) => {
           </span>
         </div>
       )}
-      <div className="progress-bar">
+      <div className="w-full h-4 bg-gray-200 rounded-full overflow-hidden">
         <div 
-          className={`progress-bar-inner progress-bar-${status}`} 
+          className={`h-full transition-all duration-300 ease-in-out ${progressColor}`} 
           style={{ width: `${percentage}%` }}
         />
       </div>
