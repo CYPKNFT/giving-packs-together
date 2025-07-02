@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Separator } from "@/components/ui/separator";
+import { supabase } from '@/integrations/supabase/client';
 import { 
   Building2, 
   Shield, 
@@ -28,16 +29,33 @@ const AdminLogin = () => {
     setError('');
 
     try {
-      // TODO: Implement actual admin authentication
-      console.log('Admin login:', { email, password });
-      
-      // Simulate login process
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // For now, just navigate to admin dashboard
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        setError(error.message);
+        return;
+      }
+
+      // Check if user is admin
+      const { data: adminData, error: adminError } = await supabase
+        .from('admin_users')
+        .select('*')
+        .eq('email', email)
+        .eq('active', true)
+        .single();
+
+      if (adminError || !adminData) {
+        setError('You do not have admin access to this system.');
+        await supabase.auth.signOut();
+        return;
+      }
+
       navigate('/admin/dashboard');
     } catch (err) {
-      setError('Invalid credentials. Please try again.');
+      setError('An unexpected error occurred. Please try again.');
     } finally {
       setLoading(false);
     }

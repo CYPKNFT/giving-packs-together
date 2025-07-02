@@ -9,6 +9,47 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      admin_users: {
+        Row: {
+          active: boolean
+          created_at: string
+          email: string
+          id: string
+          organization_id: string | null
+          role: Database["public"]["Enums"]["admin_role"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          email: string
+          id?: string
+          organization_id?: string | null
+          role?: Database["public"]["Enums"]["admin_role"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          email?: string
+          id?: string
+          organization_id?: string | null
+          role?: Database["public"]["Enums"]["admin_role"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "admin_users_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       categories: {
         Row: {
           created_at: string | null
@@ -296,13 +337,21 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_admin_role: {
+        Args: { user_uuid?: string }
+        Returns: string
+      }
       increment_item_fulfilled: {
         Args: { item_id: string; quantity_to_add: number }
         Returns: undefined
       }
+      is_admin: {
+        Args: { user_uuid?: string }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      admin_role: "super_admin" | "org_admin" | "project_manager"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -417,6 +466,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      admin_role: ["super_admin", "org_admin", "project_manager"],
+    },
   },
 } as const

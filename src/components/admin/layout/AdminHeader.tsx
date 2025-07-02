@@ -4,8 +4,17 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import { Bell, Settings, LogOut, User, HelpCircle } from "lucide-react";
+import { useAdmin } from "@/contexts/AdminContext";
+import { useNavigate } from "react-router-dom";
 
 const AdminHeader = () => {
+  const { adminUser, signOut } = useAdmin();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/admin/login');
+  };
   return (
     <header className="h-16 border-b bg-white flex items-center justify-between px-6">
       <div className="flex items-center gap-4">
@@ -42,9 +51,9 @@ const AdminHeader = () => {
           <DropdownMenuContent className="w-56" align="end">
             <div className="flex items-center justify-start gap-2 p-2">
               <div className="flex flex-col space-y-1 leading-none">
-                <p className="font-medium">Admin User</p>
+                <p className="font-medium">{adminUser?.role?.replace('_', ' ').toUpperCase()}</p>
                 <p className="w-[200px] truncate text-sm text-muted-foreground">
-                  admin@organization.org
+                  {adminUser?.email}
                 </p>
               </div>
             </div>
@@ -62,7 +71,7 @@ const AdminHeader = () => {
               Help & Support
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-red-600">
+            <DropdownMenuItem className="text-red-600" onClick={handleSignOut}>
               <LogOut className="mr-2 h-4 w-4" />
               Sign Out
             </DropdownMenuItem>
