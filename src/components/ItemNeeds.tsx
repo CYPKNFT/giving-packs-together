@@ -2,7 +2,9 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { ProjectItem } from "@/types";
 
+// Legacy Item interface for current implementation - will be removed in Phase 2
 export interface Item {
   id: string;
   name: string;

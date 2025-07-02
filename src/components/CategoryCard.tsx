@@ -1,13 +1,10 @@
 
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Link } from "react-router-dom";
+import { Category } from "@/types";
 
-interface CategoryCardProps {
-  id: string;
-  title: string;
-  description: string;
-  imageUrl: string;
-  projectCount: number;
+interface CategoryCardProps extends Omit<Category, 'created_at' | 'updated_at'> {
+  // Inherits all Category properties except timestamps
 }
 
 const CategoryCard = ({ 

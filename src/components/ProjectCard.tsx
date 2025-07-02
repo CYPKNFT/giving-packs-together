@@ -2,15 +2,10 @@
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import ProgressBar from "@/components/ProgressBar";
+import { BaseProject } from "@/types";
 
-interface ProjectCardProps {
-  id: string;
-  title: string;
-  description: string;
-  imageUrl: string;
-  organization: string;
-  itemsFulfilled: number;
-  itemsNeeded: number;
+interface ProjectCardProps extends Omit<BaseProject, 'categoryId'> {
+  // Inherits all BaseProject properties
 }
 
 const ProjectCard = ({

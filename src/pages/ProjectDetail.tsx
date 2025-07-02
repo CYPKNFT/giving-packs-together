@@ -14,31 +14,10 @@ import ProgressBar from "@/components/ProgressBar";
 import ItemNeeds, { Item } from "@/components/ItemNeeds";
 import DonationImpactCalculator from "@/components/DonationImpactCalculator";
 import { useAuth } from "@/contexts/AuthContext";
-import { Project } from "@/types/project";
+import { ProjectDetailData } from "@/types";
 import TestimonialCarousel from "@/components/TestimonialCarousel";
 
-// Extended project type for this component
-interface ProjectDetailData {
-  id: string;
-  title: string;
-  description: string;
-  imageUrl: string;
-  organization: string;
-  categoryId?: string;
-  itemsFulfilled: number;
-  itemsNeeded: number;
-  items?: Item[];
-  category?: string;
-  location?: string;
-  beneficiaries?: string;
-  timeline?: string;
-  organizationDescription?: string;
-  organizationWebsite?: string;
-  startDate?: Date;
-  endDate?: Date;
-  status?: 'draft' | 'active' | 'completed';
-  estimatedCost?: number;
-}
+// Using centralized ProjectDetailData type from @/types
 
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -453,7 +432,7 @@ const ProjectDetail = () => {
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {project.items && project.items.length > 0 ? (
-                  project.items.map((item: Item, index: number) => (
+                  (project.items as Item[]).map((item: Item, index: number) => (
                     <div 
                       key={item.id} 
                       className="animate-fade-in"
