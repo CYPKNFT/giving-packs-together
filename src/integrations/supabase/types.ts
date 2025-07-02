@@ -296,7 +296,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      increment_item_fulfilled: {
+        Args: { item_id: string; quantity_to_add: number }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

@@ -39,8 +39,18 @@ export const useDonation = () => {
         throw error;
       }
 
-      // TODO: Update project item quantity fulfilled via database function
-      // Will implement increment_item_fulfilled function in next step
+      // Update project item quantity fulfilled
+      if (donation.item_id) {
+        const { error: updateError } = await supabase.rpc('increment_item_fulfilled', {
+          item_id: donation.item_id,
+          quantity_to_add: donation.quantity
+        });
+
+        if (updateError) {
+          console.error('Error updating item quantity:', updateError);
+          // Don't throw here as the donation was created successfully
+        }
+      }
 
       return data;
     },
