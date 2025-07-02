@@ -1,5 +1,6 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CategoryCard from "@/components/CategoryCard";
@@ -10,8 +11,15 @@ import { useProjects } from "@/hooks/queries/useProjects";
 import { useCategories } from "@/hooks/queries/useCategories";
 
 const Projects = () => {
+  const { categoryId } = useParams<{ categoryId?: string }>();
   const [searchTerm, setSearchTerm] = useState('');
-  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string | null>(categoryId || null);
+
+  useEffect(() => {
+    if (categoryId) {
+      setActiveCategory(categoryId);
+    }
+  }, [categoryId]);
 
   // Use React Query to fetch data
   const { data: projects = [], isLoading: projectsLoading } = useProjects({
