@@ -9,11 +9,13 @@ interface ProjectItemsSectionProps {
 }
 
 // Calculate item status counts
-const getItemStatusCounts = (items: Item[]) => {
+const getItemStatusCounts = (items: any[]) => {
   if (!items || items.length === 0) return { urgent: 0, low: 0, moderate: 0, stocked: 0 };
   
   return items.reduce((counts, item) => {
-    const percentage = Math.min(Math.round((item.current / item.needed) * 100), 100);
+    const current = item.quantityFulfilled || item.current || 0;
+    const needed = item.quantityNeeded || item.needed || 1;
+    const percentage = Math.min(Math.round((current / needed) * 100), 100);
     if (percentage < 25) counts.urgent++;
     else if (percentage < 50) counts.low++;
     else if (percentage < 75) counts.moderate++;
@@ -53,13 +55,26 @@ const ProjectItemsSection = memo(({ project, onDonateItem }: ProjectItemsSection
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {(project.items || []).map((item) => (
-            <ItemNeeds 
-              key={item.id}
-              item={item} 
-              onDonate={onDonateItem} 
-            />
-          ))}
+          {(project.items || []).map((item) => {
+            // Transform ProjectItem to Item interface for ItemNeeds component
+            const transformedItem: Item = {
+              id: item.id,
+              name: item.name,
+              description: item.description || '',
+              price: item.estimatedCost || 0,
+              imageUrl: item.imageUrl || project.imageUrl,
+              current: item.quantityFulfilled || 0,
+              needed: item.quantityNeeded
+            };
+            
+            return (
+              <ItemNeeds 
+                key={item.id}
+                item={transformedItem} 
+                onDonate={onDonateItem} 
+              />
+            );
+          })}
         </div>
       </div>
     </div>

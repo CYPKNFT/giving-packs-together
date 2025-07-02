@@ -9,6 +9,10 @@ interface ProjectHeaderProps {
 }
 
 const ProjectHeader = memo(({ project }: ProjectHeaderProps) => {
+  const progressPercentage = Math.min(
+    Math.round(((project.itemsFulfilled || 0) / (project.itemsNeeded || 1)) * 100), 
+    100
+  );
   return (
     <>
       {/* Back Button */}
@@ -51,13 +55,13 @@ const ProjectHeader = memo(({ project }: ProjectHeaderProps) => {
                       {project.itemsFulfilled || 0}/{project.itemsNeeded || 100} items collected
                     </span>
                     <span className="text-sm font-bold text-primary">
-                      31%
+                      {progressPercentage}%
                     </span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
                     <div 
                       className="h-full bg-gradient-to-r from-orange-400 to-orange-500 rounded-full transition-all duration-500 ease-out"
-                      style={{ width: '31%' }}
+                      style={{ width: `${progressPercentage}%` }}
                     />
                   </div>
                 </div>
