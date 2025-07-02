@@ -6,20 +6,26 @@ import CategoryCard from "@/components/CategoryCard";
 import ProjectCard from "@/components/ProjectCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { mockCategories, mockProjects } from "@/data/mockData";
+import { useProjects } from "@/hooks/queries/useProjects";
+import { useCategories } from "@/hooks/queries/useCategories";
 
 const Projects = () => {
-  const [categories, setCategories] = useState(mockCategories);
-  const [projects, setProjects] = useState(mockProjects);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+
+  // Use React Query to fetch data
+  const { data: projects = [], isLoading: projectsLoading } = useProjects({
+    category: activeCategory || undefined
+  });
+  const { data: categories = [], isLoading: categoriesLoading } = useCategories();
+
+  const loading = projectsLoading || categoriesLoading;
 
   const filteredProjects = projects.filter(project => {
     const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
                           project.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = !activeCategory || project.categoryId === activeCategory;
     
-    return matchesSearch && matchesCategory;
+    return matchesSearch;
   });
 
   const handleCategoryChange = (categoryId: string | null) => {
@@ -84,7 +90,11 @@ const Projects = () => {
               </div>
             </div>
             
-            {filteredProjects.length === 0 ? (
+            {loading ? (
+              <div className="text-center py-12">
+                <p className="text-lg text-gray-600">Loading projects...</p>
+              </div>
+            ) : filteredProjects.length === 0 ? (
               <div className="text-center py-12">
                 <p className="text-lg text-gray-600 mb-4">No projects found matching your criteria</p>
                 <Button onClick={() => {

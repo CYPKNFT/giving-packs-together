@@ -9,6 +9,127 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      categories: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          image_url: string | null
+          name: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name?: string
+        }
+        Relationships: []
+      }
+      donations: {
+        Row: {
+          created_at: string | null
+          delivery_date: string | null
+          id: string
+          item_id: string | null
+          notes: string | null
+          project_id: string
+          quantity: number
+          status: string | null
+          tracking_number: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          delivery_date?: string | null
+          id?: string
+          item_id?: string | null
+          notes?: string | null
+          project_id: string
+          quantity?: number
+          status?: string | null
+          tracking_number?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          delivery_date?: string | null
+          id?: string
+          item_id?: string | null
+          notes?: string | null
+          project_id?: string
+          quantity?: number
+          status?: string | null
+          tracking_number?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "donations_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "project_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "donations_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "donations_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organizations: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          logo_url: string | null
+          name: string
+          updated_at: string | null
+          verified: boolean | null
+          website_url: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          logo_url?: string | null
+          name: string
+          updated_at?: string | null
+          verified?: boolean | null
+          website_url?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          logo_url?: string | null
+          name?: string
+          updated_at?: string | null
+          verified?: boolean | null
+          website_url?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string | null
@@ -32,6 +153,143 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
+      }
+      project_items: {
+        Row: {
+          category: string | null
+          created_at: string | null
+          description: string | null
+          estimated_cost: number | null
+          id: string
+          image_url: string | null
+          name: string
+          priority: string | null
+          project_id: string
+          quantity_fulfilled: number | null
+          quantity_needed: number
+          updated_at: string | null
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          estimated_cost?: number | null
+          id?: string
+          image_url?: string | null
+          name: string
+          priority?: string | null
+          project_id: string
+          quantity_fulfilled?: number | null
+          quantity_needed?: number
+          updated_at?: string | null
+        }
+        Update: {
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          estimated_cost?: number | null
+          id?: string
+          image_url?: string | null
+          name?: string
+          priority?: string | null
+          project_id?: string
+          quantity_fulfilled?: number | null
+          quantity_needed?: number
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_items_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      projects: {
+        Row: {
+          about_text: string | null
+          beneficiaries: string | null
+          category_id: string
+          created_at: string | null
+          description: string
+          end_date: string | null
+          estimated_cost: number | null
+          id: string
+          image_url: string | null
+          items_fulfilled: number | null
+          items_needed: number | null
+          location: string | null
+          organization_id: string
+          start_date: string | null
+          status: string | null
+          timeline: string | null
+          title: string
+          updated_at: string | null
+          urgency: string | null
+          website_url: string | null
+        }
+        Insert: {
+          about_text?: string | null
+          beneficiaries?: string | null
+          category_id: string
+          created_at?: string | null
+          description: string
+          end_date?: string | null
+          estimated_cost?: number | null
+          id?: string
+          image_url?: string | null
+          items_fulfilled?: number | null
+          items_needed?: number | null
+          location?: string | null
+          organization_id: string
+          start_date?: string | null
+          status?: string | null
+          timeline?: string | null
+          title: string
+          updated_at?: string | null
+          urgency?: string | null
+          website_url?: string | null
+        }
+        Update: {
+          about_text?: string | null
+          beneficiaries?: string | null
+          category_id?: string
+          created_at?: string | null
+          description?: string
+          end_date?: string | null
+          estimated_cost?: number | null
+          id?: string
+          image_url?: string | null
+          items_fulfilled?: number | null
+          items_needed?: number | null
+          location?: string | null
+          organization_id?: string
+          start_date?: string | null
+          status?: string | null
+          timeline?: string | null
+          title?: string
+          updated_at?: string | null
+          urgency?: string | null
+          website_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "projects_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "projects_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
