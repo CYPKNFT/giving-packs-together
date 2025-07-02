@@ -19,7 +19,7 @@ import About from "./pages/About";
 import HowItWorks from "./pages/HowItWorks";
 import StartProject from "./pages/StartProject";
 import AdminLogin from "./pages/admin/AdminLogin";
-import AdminDashboard from "./pages/AdminDashboard";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 
 const App = () => {
   useWebVitals();
