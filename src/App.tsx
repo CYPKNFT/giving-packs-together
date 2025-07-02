@@ -17,6 +17,9 @@ import MyDonations from "./pages/MyDonations";
 import Profile from "./pages/Profile";
 import About from "./pages/About";
 import HowItWorks from "./pages/HowItWorks";
+import StartProject from "./pages/StartProject";
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminDashboard from "./pages/AdminDashboard";
 
 const App = () => {
   useWebVitals();
@@ -53,6 +56,9 @@ const App = () => {
           />
           <Route path="/about" element={<About />} />
           <Route path="/how-it-works" element={<HowItWorks />} />
+          <Route path="/start-project" element={<StartProject />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
         </Routes>
       </TooltipProvider>
     </ErrorBoundary>
