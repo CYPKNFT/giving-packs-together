@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
+    "@playwright/test": "^1.53.2",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-aspect-ratio": "^1.1.0",
@@ -42,6 +43,10 @@
     "@supabase/supabase-js": "^2.50.2",
     "@tanstack/react-query": "^5.81.5",
     "@tanstack/react-query-devtools": "^5.81.5",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@vitest/coverage-v8": "^1.6.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
@@ -49,7 +54,9 @@
     "embla-carousel-react": "^8.3.0",
     "framer-motion": "^12.9.2",
     "input-otp": "^1.2.4",
+    "jsdom": "^23.2.0",
     "lucide-react": "^0.462.0",
+    "msw": "^2.10.2",
     "next-themes": "^0.3.0",
     "react": "^18.3.1",
     "react-day-picker": "^8.10.1",
@@ -62,6 +69,7 @@
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.9.3",
+    "vitest": "^3.2.4",
     "zod": "^3.23.8"
   },
   "devDependencies": {
