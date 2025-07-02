@@ -349,6 +349,14 @@ export type Database = {
         Args: { user_uuid?: string }
         Returns: boolean
       }
+      is_org_admin_for_org: {
+        Args: { org_id: string }
+        Returns: boolean
+      }
+      is_super_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
     }
     Enums: {
       admin_role: "super_admin" | "org_admin" | "project_manager"
