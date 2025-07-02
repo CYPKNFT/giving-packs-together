@@ -13,12 +13,10 @@ import { useCategories } from "@/hooks/queries/useCategories";
 const Projects = () => {
   const { categoryId } = useParams<{ categoryId?: string }>();
   const [searchTerm, setSearchTerm] = useState('');
-  const [activeCategory, setActiveCategory] = useState<string | null>(categoryId || null);
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   useEffect(() => {
-    if (categoryId) {
-      setActiveCategory(categoryId);
-    }
+    setActiveCategory(categoryId || null);
   }, [categoryId]);
 
   // Use React Query to fetch data

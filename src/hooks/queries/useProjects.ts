@@ -10,7 +10,7 @@ export interface ProjectFilters {
 
 export const useProjects = (filters?: ProjectFilters) => {
   return useQuery({
-    queryKey: ['projects', filters],
+    queryKey: ['projects', filters?.category, filters?.status, filters?.limit],
     queryFn: async (): Promise<ProjectDetailData[]> => {
       let query = supabase
         .from('projects')
