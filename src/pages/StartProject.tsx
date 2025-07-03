@@ -34,102 +34,82 @@ const StartProject = () => {
   const tutorialSteps = [
     {
       id: 1,
-      title: "Vision & Planning",
-      time: "2-3 minutes",
+      title: "Get Started",
+      time: "2-5 minutes",
       icon: Target,
-      description: "Define your cause and impact goals",
+      description: "Create your project and tell your story",
       details: [
-        "Clearly articulate your mission and vision",
-        "Identify specific target beneficiaries",
-        "Set measurable impact goals and success metrics",
-        "Choose the most appropriate project category",
-        "Research similar projects and best practices"
+        "Share your mission and what you're trying to achieve",
+        "Describe who will benefit from your project",
+        "Set clear, achievable goals for your initiative",
+        "Choose the category that best fits your project",
+        "Add photos and details that connect with donors"
       ],
       requirements: [
-        "Clear project purpose and goals",
-        "Defined target beneficiaries",
-        "Measurable impact metrics",
+        "Project description",
+        "Target beneficiaries",
+        "Basic goals",
         "Category selection"
       ]
     },
     {
       id: 2,
-      title: "Organization Setup",
-      time: "5-10 minutes",
+      title: "Organization Info",
+      time: "3-8 minutes", 
       icon: Building2,
-      description: "Register your foundation and complete verification",
+      description: "Share your organization details (flexible approach)",
       details: [
-        "Provide comprehensive organization details",
-        "Upload required legal documentation",
-        "Complete our rigorous verification process",
-        "Set up secure contact information",
-        "Establish credibility and trust indicators"
+        "Tell us about your organization or community group",
+        "Share your mission and background",
+        "Add contact information and website if available",
+        "Upload official documents if you're a registered nonprofit",
+        "Community groups and churches welcome - verification optional"
       ],
       requirements: [
-        "Legal organization documents",
-        "Tax-exempt status (if applicable)",
-        "Official contact information",
-        "Leadership team details"
+        "Organization name and description",
+        "Contact information",
+        "Documents (only if formal nonprofit)",
+        "Mission statement"
       ]
     },
     {
       id: 3,
-      title: "Project Creation",
-      time: "10-15 minutes",
-      icon: ClipboardList,
-      description: "Create detailed project description and timeline",
+      title: "List Your Needs",
+      time: "5-10 minutes",
+      icon: Package,
+      description: "Specify what items and support you need",
       details: [
-        "Craft compelling project title and description",
-        "Define project timeline and key milestones",
-        "Create detailed budget planning",
-        "Specify location and beneficiary information",
-        "Add supporting images and documentation"
+        "List the specific items you need (supplies, equipment, etc.)",
+        "Set quantities and priorities for each item",
+        "Add estimated costs to help donors understand impact",
+        "Include item descriptions and photos when helpful",
+        "Organize items by category for easy browsing"
       ],
       requirements: [
-        "Project title and description",
-        "Timeline with milestones",
-        "Budget breakdown",
-        "Location details"
+        "Item list with quantities",
+        "Priority levels",
+        "Cost estimates",
+        "Item descriptions"
       ]
     },
     {
       id: 4,
-      title: "Define Needs",
-      time: "5-10 minutes",
-      icon: Package,
-      description: "Specify items, quantities, and priorities",
-      details: [
-        "Categorize needed items systematically",
-        "Set precise quantity specifications",
-        "Assign priority levels to each item",
-        "Provide accurate cost estimates",
-        "Create detailed item descriptions"
-      ],
-      requirements: [
-        "Complete item inventory",
-        "Quantity specifications",
-        "Priority rankings",
-        "Cost estimates"
-      ]
-    },
-    {
-      id: 5,
-      title: "Launch & Manage",
-      time: "Ongoing",
+      title: "Review & Publish",
+      time: "2-5 minutes",
       icon: TrendingUp,
-      description: "Go live and track donations",
+      description: "Launch your project and start receiving donations",
       details: [
-        "Navigate our comprehensive review process",
-        "Launch your project to the public",
-        "Track donations and progress in real-time",
-        "Manage donor communications effectively",
-        "Generate detailed impact reports"
+        "Review all your project information",
+        "Submit for our simple approval process",
+        "Go live and start accepting donations",
+        "Track progress in real-time",
+        "Communicate with your donor community"
       ],
       requirements: [
-        "Approved project status",
-        "Active monitoring setup",
-        "Donor communication plan",
-        "Impact tracking system"
+        "Complete project information",
+        "All required fields filled",
+        "Terms acceptance",
+        "Contact verification"
       ]
     }
   ];
@@ -189,7 +169,7 @@ const StartProject = () => {
     },
     {
       question: "What types of organizations can create projects?",
-      answer: "We welcome registered nonprofits, schools, community organizations, and verified social initiatives. All organizations must complete our verification process."
+      answer: "We welcome everyone! From community groups and churches to schools and registered nonprofits. Formal verification is optional for registered charities who want enhanced credibility, but anyone can create projects."
     },
     {
       question: "Are there any fees for using the platform?",
@@ -214,41 +194,48 @@ const StartProject = () => {
               Trusted by 5,000+ Organizations
             </Badge>
             <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Turn Your Vision Into Impact
+              Create Community Impact
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-              Join thousands of organizations creating meaningful change. Our comprehensive platform guides you through every step of launching a successful donation project.
+              From local community groups to established nonprofits - everyone can create meaningful change. 
+              Launch your project in minutes and connect with donors who care about your cause.
             </p>
             <div className="flex flex-wrap justify-center gap-4 mb-12">
-              <div className="flex items-center gap-2 text-sm bg-white/50 rounded-full px-4 py-2">
-                <Clock className="w-4 h-4 text-primary" />
-                <span>5-step process</span>
+              <div className="flex items-center gap-2 text-sm bg-primary/20 text-primary rounded-full px-4 py-2">
+                <Clock className="w-4 h-4" />
+                <span>4-step process</span>
               </div>
-              <div className="flex items-center gap-2 text-sm bg-white/50 rounded-full px-4 py-2">
-                <Shield className="w-4 h-4 text-primary" />
-                <span>Verified platform</span>
+              <div className="flex items-center gap-2 text-sm bg-primary/20 text-primary rounded-full px-4 py-2">
+                <Users className="w-4 h-4" />
+                <span>Open to all</span>
               </div>
-              <div className="flex items-center gap-2 text-sm bg-white/50 rounded-full px-4 py-2">
-                <Eye className="w-4 h-4 text-primary" />
+              <div className="flex items-center gap-2 text-sm bg-primary/20 text-primary rounded-full px-4 py-2">
+                <Eye className="w-4 h-4" />
                 <span>Real-time tracking</span>
               </div>
             </div>
             
             {/* Progress Overview */}
             <div className="max-w-4xl mx-auto">
-              <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
                 {tutorialSteps.map((step, index) => (
                   <div key={step.id} className="relative">
-                    <div className={`bg-white rounded-lg p-4 shadow-sm border-2 transition-all duration-300 ${
-                      currentStep >= index ? 'border-primary bg-primary/5' : 'border-gray-200'
+                    <div className={`rounded-lg p-4 shadow-sm border-2 transition-all duration-300 ${
+                      currentStep >= index ? 'border-primary bg-primary text-white' : 'border-gray-200 bg-white'
                     }`}>
                       <div className={`w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2 ${
-                        currentStep >= index ? 'bg-primary text-white' : 'bg-gray-100 text-gray-400'
+                        currentStep >= index ? 'bg-white text-primary' : 'bg-gray-100 text-gray-400'
                       }`}>
                         <step.icon className="w-6 h-6" />
                       </div>
-                      <h3 className="font-semibold text-sm text-center">{step.title}</h3>
-                      <p className="text-xs text-center text-muted-foreground mt-1">{step.time}</p>
+                      <h3 className={`font-semibold text-sm text-center ${
+                        currentStep >= index ? 'text-white' : 'text-foreground'
+                      }`}>{step.title}</h3>
+                      <div className={`text-xs text-center mt-1 px-2 py-1 rounded-full ${
+                        currentStep >= index ? 'bg-white/20 text-white' : 'bg-primary/10 text-primary'
+                      }`}>
+                        {step.time}
+                      </div>
                     </div>
                     {index < tutorialSteps.length - 1 && (
                       <ArrowRight className="hidden md:block absolute top-1/2 -right-6 transform -translate-y-1/2 w-4 h-4 text-gray-300" />
@@ -395,18 +382,18 @@ const StartProject = () => {
         </section>
 
         {/* CTA Section */}
-        <section className="py-16 bg-gradient-to-r from-primary to-secondary">
+        <section className="py-16 bg-gradient-to-r from-primary to-primary/80">
           <div className="container mx-auto px-4 text-center">
             <div className="max-w-3xl mx-auto text-white">
               <h2 className="text-3xl font-bold mb-4">Ready to Start Your Project?</h2>
               <p className="text-xl mb-8 opacity-90">
-                Join thousands of organizations making a difference. Access our admin portal to begin your journey.
+                Join thousands of communities and organizations making a difference. Create your project in minutes.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" variant="secondary" className="text-lg px-8 py-3" asChild>
-                  <Link to="/admin/login">
+                <Button size="lg" variant="secondary" className="text-lg px-8 py-3 bg-white text-primary hover:bg-white/90" asChild>
+                  <Link to="/admin/register">
                     <UserCheck className="w-5 h-5 mr-2" />
-                    Access Admin Portal
+                    Start Your Project
                   </Link>
                 </Button>
                 <Button size="lg" variant="outline" className="text-lg px-8 py-3 border-white text-white hover:bg-white hover:text-primary" asChild>
@@ -417,7 +404,7 @@ const StartProject = () => {
                 </Button>
               </div>
               <p className="text-sm mt-6 opacity-75">
-                New to the platform? Contact us for a guided walkthrough of the process.
+                Already have an account? <Link to="/admin/login" className="underline hover:no-underline">Sign in here</Link>
               </p>
             </div>
           </div>
