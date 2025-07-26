@@ -65,42 +65,16 @@ const ImpactStoriesSection = () => {
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
           >
-            <div className="flex justify-center">
-              <div className="w-full max-w-md">
-                <StoryCard {...stories[currentStory]} />
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {stories.map((story, index) => (
+                <div key={story.id} className="animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
+                  <StoryCard {...story} />
+                </div>
+              ))}
             </div>
             
-            <Button
-              variant="outline"
-              size="icon"
-              className="absolute left-4 top-1/2 transform -translate-y-1/2"
-              onClick={prevStory}
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            
-            <Button
-              variant="outline"
-              size="icon"
-              className="absolute right-4 top-1/2 transform -translate-y-1/2"
-              onClick={nextStory}
-            >
-              <ChevronRight className="h-4 w-4" />
-            </Button>
           </div>
           
-          <div className="flex justify-center mt-8 gap-2">
-            {stories.map((_, index) => (
-              <button
-                key={index}
-                className={`w-3 h-3 rounded-full transition-colors ${
-                  index === currentStory ? 'bg-primary' : 'bg-gray-300'
-                }`}
-                onClick={() => setCurrentStory(index)}
-              />
-            ))}
-          </div>
           
           <div className="text-center mt-8">
             <Button variant="outline">

@@ -9,22 +9,26 @@ const About = () => {
       <Navbar />
       
       <main className="flex-grow">
-        <section 
-          className="relative py-32 md:py-40 bg-center bg-cover"
-          style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1469474968028-56623f02e42e')",
-          }}
-        >
-          <div className="absolute inset-0 bg-black/40" />
-          <div className="container relative mx-auto px-4">
-            <div className="max-w-3xl mx-auto text-center">
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                About GivingPacks
-              </h1>
-              <p className="text-xl text-white/90 mb-8">
-                "For I was hungry and you gave me food, I was thirsty and you gave me drink, I was a stranger and you welcomed me." - Matthew 25:35
-              </p>
-            </div>
+        {/* Hero Banner */}
+        <section className="relative py-32 overflow-hidden">
+          {/* Background Image */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage: `url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80')`
+            }}
+          >
+            <div className="absolute inset-0 bg-black/60"></div>
+          </div>
+          
+          <div className="container mx-auto px-4 text-center relative z-10">
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-8 animate-fade-in-up">About GivingPacks</h1>
+            <p className="text-xl md:text-2xl text-white/90 mb-6 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+              "Building communities through the power of generous hearts and faithful stewardship."
+            </p>
+            <p className="text-lg text-white/80 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
+              - Matthew 6:21
+            </p>
           </div>
         </section>
 
@@ -41,7 +45,7 @@ const About = () => {
               <div>
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Biblical Foundation</h2>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  Our work is grounded in Scripture's clear call to care for "the least of these" (Matthew 25:40). We believe that faithful stewardship means using technology and innovation to multiply our impact, ensuring that every gift - whether time, talent, or treasure - reaches those who need it most effectively.
+                  Our work is grounded in Scripture's call to love and serve one another. We believe that faithful stewardship means using technology and innovation to multiply our impact, ensuring that every gift - whether time, talent, or treasure - creates lasting change in communities around the world.
                 </p>
                 <p className="text-gray-700 leading-relaxed">
                   "Each of you should use whatever gift you have received to serve others, as faithful stewards of God's grace in its various forms." - 1 Peter 4:10
@@ -49,9 +53,9 @@ const About = () => {
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Our Heart for All People</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">Building Communities Through Generosity</h2>
                 <p className="text-gray-700 leading-relaxed">
-                  Following Christ's example of love without boundaries, GivingPacks serves all people - Christians and non-Christians alike. We believe that God's love is for everyone, and our platform connects generous hearts with urgent needs across all communities. Whether supporting a family in crisis, funding educational resources, or providing medical supplies, we see each act of giving as an opportunity to reflect God's love and grace to a hurting world.
+                  Following Christ's example of love without boundaries, GivingPacks connects generous hearts with meaningful opportunities to make a difference. We believe in the power of community, the strength found in unity, and the transformative impact of generous giving. Whether supporting education initiatives, community development, or emergency relief, we see each act of giving as an opportunity to build stronger, more resilient communities where everyone can thrive.
                 </p>
               </div>
 
