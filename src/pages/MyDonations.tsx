@@ -152,16 +152,31 @@ const MyDonations = () => {
       
       <main className="flex-grow">
         {/* Header Section */}
-        <section className="bg-gradient-hero py-20 relative overflow-hidden">
+        <section className="relative py-32 overflow-hidden">
+          {/* Background Image */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage: `url('https://images.unsplash.com/photo-1469474968028-56623f02e425?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80')`
+            }}
+          >
+            <div className="absolute inset-0 bg-black/60"></div>
+          </div>
+          
+          {/* Animated background elements */}
           <div className="absolute inset-0 opacity-20">
             <div className="absolute top-10 left-10 w-32 h-32 bg-white/10 rounded-full animate-pulse"></div>
             <div className="absolute bottom-10 right-10 w-24 h-24 bg-white/10 rounded-full animate-bounce-in"></div>
           </div>
+          
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 animate-fade-in-up">My Donations</h1>
-              <p className="text-xl text-white/90 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-                Track your impact and see how your generosity is making a difference.
+              <h1 className="text-4xl md:text-6xl font-bold text-white mb-8 animate-fade-in-up">My Donations</h1>
+              <p className="text-xl md:text-2xl text-white/90 mb-6 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+                "Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver."
+              </p>
+              <p className="text-lg text-white/80 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
+                - 2 Corinthians 9:7
               </p>
             </div>
           </div>

@@ -11,6 +11,11 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Calendar, Heart, Clock, Filter } from "lucide-react";
 
 interface Profile {
   id: string;
@@ -25,10 +30,50 @@ const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: ""
   });
+
+  // Mock donation data - same as My Donations page
+  const donations = [
+    {
+      id: 1,
+      projectTitle: "School Supplies for Rural Children",
+      organization: "Education First",
+      amount: 25,
+      type: "monetary",
+      date: "2024-06-28",
+      status: "completed",
+      impact: "Helped 5 children get school supplies"
+    },
+    {
+      id: 2,
+      projectTitle: "Emergency Food Relief",
+      organization: "Food Bank Network",
+      items: ["Canned Food", "Rice Bags"],
+      type: "items",
+      date: "2024-06-25",
+      status: "delivered",
+      impact: "Fed 3 families for a week"
+    },
+    {
+      id: 3,
+      projectTitle: "Medical Equipment Fund",
+      organization: "Health Care Alliance",
+      amount: 50,
+      type: "monetary",
+      date: "2024-06-20",
+      status: "processing",
+      impact: "Contributing to medical equipment purchase"
+    }
+  ];
+
+  // Filter donations by category
+  const filteredDonations = selectedCategory === "all" 
+    ? donations 
+    : donations.filter(d => d.organization.toLowerCase().includes(selectedCategory.toLowerCase()));
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -211,11 +256,131 @@ const Profile = () => {
           </Card>
 
           <Card>
-            <CardHeader>
+            <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle>Recent Donations</CardTitle>
+              {donations.length > 0 && (
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="outline" size="sm" className="hover-lift smooth-transition">
+                      <Clock className="w-4 h-4 mr-2" />
+                      View All
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-4xl max-h-[80vh]">
+                    <DialogHeader>
+                      <DialogTitle className="text-2xl font-bold flex items-center gap-2">
+                        <Heart className="w-6 h-6 text-primary" />
+                        Recent Donations
+                      </DialogTitle>
+                    </DialogHeader>
+                    
+                    {/* Category Filter */}
+                    <div className="flex items-center gap-4 mb-4">
+                      <Filter className="w-5 h-5 text-gray-500" />
+                      <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                        <SelectTrigger className="w-48">
+                          <SelectValue placeholder="Filter by category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Donations</SelectItem>
+                          <SelectItem value="education">Education</SelectItem>
+                          <SelectItem value="food">Food Security</SelectItem>
+                          <SelectItem value="health">Healthcare</SelectItem>
+                          <SelectItem value="shelter">Housing</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {/* Scrollable donations list */}
+                    <ScrollArea className="h-[500px] pr-4">
+                      <div className="space-y-4">
+                        {filteredDonations.map((donation) => (
+                          <Card key={donation.id} className="soft-shadow hover-lift smooth-transition">
+                            <CardHeader className="bg-gradient-to-r from-primary/5 to-primary/10 pb-3">
+                              <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+                                <div className="flex-1">
+                                  <CardTitle className="text-lg mb-1 text-gray-900">{donation.projectTitle}</CardTitle>
+                                  <p className="text-gray-600 font-medium text-sm">{donation.organization}</p>
+                                </div>
+                                <div className="mt-2 md:mt-0 flex flex-col items-end gap-2">
+                                  <Badge 
+                                    variant={
+                                      donation.status === 'completed' ? 'default' :
+                                      donation.status === 'delivered' ? 'default' :
+                                      'secondary'
+                                    }
+                                    className="font-medium"
+                                  >
+                                    {donation.status.charAt(0).toUpperCase() + donation.status.slice(1)}
+                                  </Badge>
+                                  <div className="flex items-center text-xs text-gray-500">
+                                    <Calendar className="w-3 h-3 mr-1" />
+                                    {new Date(donation.date).toLocaleDateString()}
+                                  </div>
+                                </div>
+                              </div>
+                            </CardHeader>
+                            <CardContent className="p-4">
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                  <h4 className="font-semibold mb-2 text-gray-900 text-sm">Your Contribution</h4>
+                                  {donation.type === 'monetary' ? (
+                                    <p className="text-2xl font-bold text-primary">${donation.amount}</p>
+                                  ) : (
+                                    <div className="space-y-1">
+                                      {donation.items?.map((item, index) => (
+                                        <Badge key={index} variant="outline" className="mr-1 text-xs">{item}</Badge>
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
+                                <div>
+                                  <h4 className="font-semibold mb-2 text-gray-900 text-sm">Impact</h4>
+                                  <p className="text-gray-700 leading-relaxed text-sm">{donation.impact}</p>
+                                </div>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        ))}
+                      </div>
+                    </ScrollArea>
+                  </DialogContent>
+                </Dialog>
+              )}
             </CardHeader>
             <CardContent>
-              <p className="text-gray-600">No donations yet.</p>
+              {donations.length > 0 ? (
+                <div className="space-y-4">
+                  {donations.slice(0, 2).map((donation) => (
+                    <div key={donation.id} className="border rounded-lg p-4 hover-lift smooth-transition">
+                      <div className="flex justify-between items-start mb-2">
+                        <h4 className="font-semibold text-gray-900">{donation.projectTitle}</h4>
+                        <Badge variant="outline" className="text-xs">
+                          {donation.status}
+                        </Badge>
+                      </div>
+                      <p className="text-sm text-gray-600 mb-2">{donation.organization}</p>
+                      <div className="flex justify-between items-center">
+                        {donation.type === 'monetary' ? (
+                          <span className="font-bold text-primary">${donation.amount}</span>
+                        ) : (
+                          <span className="text-sm text-gray-700">Items donated</span>
+                        )}
+                        <span className="text-xs text-gray-500">
+                          {new Date(donation.date).toLocaleDateString()}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                  {donations.length > 2 && (
+                    <p className="text-sm text-gray-500 text-center">
+                      +{donations.length - 2} more donations
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <p className="text-gray-600">No donations yet.</p>
+              )}
             </CardContent>
           </Card>
         </div>

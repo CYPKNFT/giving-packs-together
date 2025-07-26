@@ -62,19 +62,32 @@ const HowItWorks = () => {
       <Navbar />
       
       <main className="flex-grow">
-        <section className="relative py-24 overflow-hidden bg-gradient-to-br from-primary/10 via-primary/5 to-transparent">
-          <div className="container mx-auto px-4">
+        <section className="relative py-32 overflow-hidden">
+          {/* Background Image */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage: `url('https://images.unsplash.com/photo-1518495973542-4542c06a5843?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80')`
+            }}
+          >
+            <div className="absolute inset-0 bg-black/60"></div>
+          </div>
+          
+          <div className="container mx-auto px-4 relative z-10">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="max-w-3xl mx-auto text-center"
+              className="max-w-4xl mx-auto text-center"
             >
-              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-                How GivingPacks Works
+              <h1 className="text-4xl md:text-6xl font-bold text-white mb-8 animate-fade-in-up">
+                How It Works
               </h1>
-              <p className="text-xl text-gray-600">
-                Join us in faith-based giving, where prayer guides our generosity and God multiplies our impact
+              <p className="text-xl md:text-2xl text-white/90 mb-6 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+                "In everything I did, I showed you that by this kind of hard work we must help the weak, remembering the words the Lord Jesus himself said: 'It is more blessed to give than to receive.'"
+              </p>
+              <p className="text-lg text-white/80 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
+                - Acts 20:35
               </p>
             </motion.div>
           </div>

@@ -44,14 +44,27 @@ const Projects = () => {
       
       <main className="flex-grow">
         {/* Hero Banner */}
-        <div className="bg-primary py-12">
-          <div className="container mx-auto px-4 text-center">
-            <h1 className="text-3xl font-bold text-white mb-4">Browse Projects</h1>
-            <p className="text-white/90 text-lg max-w-2xl mx-auto">
-              Discover charitable projects that need your support. Filter by category or search for specific needs.
+        <section className="relative py-32 overflow-hidden">
+          {/* Background Image */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage: `url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80')`
+            }}
+          >
+            <div className="absolute inset-0 bg-black/60"></div>
+          </div>
+          
+          <div className="container mx-auto px-4 text-center relative z-10">
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-8 animate-fade-in-up">Browse Projects</h1>
+            <p className="text-xl md:text-2xl text-white/90 mb-6 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+              "Whoever is kind to the poor lends to the Lord, and he will reward them for what they have done."
+            </p>
+            <p className="text-lg text-white/80 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
+              - Proverbs 19:17
             </p>
           </div>
-        </div>
+        </section>
         
         {/* Categories Section */}
         <section className="py-8 bg-gray-50">
