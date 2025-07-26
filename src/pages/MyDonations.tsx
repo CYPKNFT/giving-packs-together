@@ -81,11 +81,15 @@ const MyDonations = () => {
       
       <main className="flex-grow">
         {/* Header Section */}
-        <section className="bg-gradient-to-r from-primary/10 to-primary/5 py-16">
-          <div className="container mx-auto px-4">
+        <section className="bg-gradient-hero py-20 relative overflow-hidden">
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute top-10 left-10 w-32 h-32 bg-white/10 rounded-full animate-pulse"></div>
+            <div className="absolute bottom-10 right-10 w-24 h-24 bg-white/10 rounded-full animate-bounce-in"></div>
+          </div>
+          <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-4xl font-bold mb-6">My Donations</h1>
-              <p className="text-xl text-gray-600">
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 animate-fade-in-up">My Donations</h1>
+              <p className="text-xl text-white/90 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
                 Track your impact and see how your generosity is making a difference.
               </p>
             </div>
@@ -93,40 +97,40 @@ const MyDonations = () => {
         </section>
 
         {/* Stats Section */}
-        <section className="py-12 bg-white">
+        <section className="py-16 bg-gradient-subtle relative">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-                <Card>
-                  <CardContent className="p-6 text-center">
-                    <DollarSign className="w-12 h-12 text-primary mx-auto mb-4" />
-                    <h3 className="text-2xl font-bold mb-2">${totalDonated}</h3>
-                    <p className="text-gray-600">Total Donated</p>
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
+                <Card className="soft-shadow hover-lift smooth-transition">
+                  <CardContent className="p-8 text-center bg-gradient-to-br from-primary/5 to-primary/10">
+                    <DollarSign className="w-16 h-16 text-primary mx-auto mb-4" />
+                    <h3 className="text-3xl font-bold mb-2 text-gray-900">${totalDonated}</h3>
+                    <p className="text-gray-600 font-medium">Total Donated</p>
                   </CardContent>
                 </Card>
                 
-                <Card>
-                  <CardContent className="p-6 text-center">
-                    <Heart className="w-12 h-12 text-primary mx-auto mb-4" />
-                    <h3 className="text-2xl font-bold mb-2">{totalProjects}</h3>
-                    <p className="text-gray-600">Projects Supported</p>
+                <Card className="soft-shadow hover-lift smooth-transition">
+                  <CardContent className="p-8 text-center bg-gradient-to-br from-blue-50 to-blue-100">
+                    <Heart className="w-16 h-16 text-blue-600 mx-auto mb-4" />
+                    <h3 className="text-3xl font-bold mb-2 text-gray-900">{totalProjects}</h3>
+                    <p className="text-gray-600 font-medium">Projects Supported</p>
                   </CardContent>
                 </Card>
                 
-                <Card>
-                  <CardContent className="p-6 text-center">
-                    <Package className="w-12 h-12 text-primary mx-auto mb-4" />
-                    <h3 className="text-2xl font-bold mb-2">12</h3>
-                    <p className="text-gray-600">Lives Impacted</p>
+                <Card className="soft-shadow hover-lift smooth-transition">
+                  <CardContent className="p-8 text-center bg-gradient-to-br from-green-50 to-green-100">
+                    <Package className="w-16 h-16 text-green-600 mx-auto mb-4" />
+                    <h3 className="text-3xl font-bold mb-2 text-gray-900">12</h3>
+                    <p className="text-gray-600 font-medium">Lives Impacted</p>
                   </CardContent>
                 </Card>
 
-                <Card className="cursor-pointer hover:shadow-lg transition-shadow">
-                  <CardContent className="p-6 text-center">
+                <Card className="soft-shadow hover-lift smooth-transition cursor-pointer group">
+                  <CardContent className="p-8 text-center bg-gradient-to-br from-orange-50 to-orange-100">
                     <Link to="/projects" className="block">
-                      <Search className="w-12 h-12 text-primary mx-auto mb-4" />
-                      <h3 className="text-lg font-bold mb-2">Explore</h3>
-                      <p className="text-gray-600">Find Projects</p>
+                      <Search className="w-16 h-16 text-orange-600 mx-auto mb-4 group-hover:scale-110 smooth-transition" />
+                      <h3 className="text-xl font-bold mb-2 text-gray-900">Explore</h3>
+                      <p className="text-gray-600 font-medium">Find Projects</p>
                     </Link>
                   </CardContent>
                 </Card>
@@ -139,19 +143,19 @@ const MyDonations = () => {
         </section>
 
         {/* Recent Donations Section */}
-        <section className="py-12 bg-white">
+        <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
               <div className="space-y-6">
-                <h2 className="text-2xl font-bold mb-6">Recent Donations</h2>
+                <h2 className="text-3xl font-bold mb-8 text-center">Recent Donations</h2>
                 
                 {donations.map((donation) => (
-                  <Card key={donation.id}>
-                    <CardHeader>
+                  <Card key={donation.id} className="soft-shadow hover-lift smooth-transition">
+                    <CardHeader className="bg-gradient-to-r from-primary/5 to-primary/10">
                       <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                         <div className="flex-1">
-                          <CardTitle className="text-xl mb-2">{donation.projectTitle}</CardTitle>
-                          <p className="text-gray-600">{donation.organization}</p>
+                          <CardTitle className="text-xl mb-2 text-gray-900">{donation.projectTitle}</CardTitle>
+                          <p className="text-gray-600 font-medium">{donation.organization}</p>
                         </div>
                         <div className="mt-4 md:mt-0 flex flex-col items-end gap-2">
                           <Badge 
@@ -160,6 +164,7 @@ const MyDonations = () => {
                               donation.status === 'delivered' ? 'default' :
                               'secondary'
                             }
+                            className="font-medium"
                           >
                             {donation.status.charAt(0).toUpperCase() + donation.status.slice(1)}
                           </Badge>
@@ -170,23 +175,23 @@ const MyDonations = () => {
                         </div>
                       </div>
                     </CardHeader>
-                    <CardContent>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <CardContent className="p-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
-                          <h4 className="font-semibold mb-2">Your Contribution</h4>
+                          <h4 className="font-semibold mb-3 text-gray-900">Your Contribution</h4>
                           {donation.type === 'monetary' ? (
-                            <p className="text-2xl font-bold text-primary">${donation.amount}</p>
+                            <p className="text-3xl font-bold text-primary">${donation.amount}</p>
                           ) : (
-                            <div className="space-y-1">
+                            <div className="space-y-2">
                               {donation.items?.map((item, index) => (
-                                <Badge key={index} variant="outline">{item}</Badge>
+                                <Badge key={index} variant="outline" className="mr-2">{item}</Badge>
                               ))}
                             </div>
                           )}
                         </div>
                         <div>
-                          <h4 className="font-semibold mb-2">Impact</h4>
-                          <p className="text-gray-600">{donation.impact}</p>
+                          <h4 className="font-semibold mb-3 text-gray-900">Impact</h4>
+                          <p className="text-gray-700 leading-relaxed">{donation.impact}</p>
                         </div>
                       </div>
                     </CardContent>

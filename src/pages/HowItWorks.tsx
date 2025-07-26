@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { HandHelping, Search, Gift, Users, ShieldCheck, CircleDollarSign, PackageCheck, HandHeart } from "lucide-react";
+import { HandHelping, Search, Gift, Users, ShieldCheck, CircleDollarSign, PackageCheck, HandHeart, Heart } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -10,23 +10,23 @@ const HowItWorks = () => {
   const steps = [
     {
       icon: Search,
-      title: "Browse Projects",
-      description: "Explore various charitable projects and their specific needs across different categories."
+      title: "Browse & Pray",
+      description: "Explore various charitable projects and pray for guidance in selecting where to serve."
     },
     {
       icon: Gift,
-      title: "Choose Your Impact",
-      description: "Select items to donate or contribute funds directly to help fulfill project requirements."
+      title: "Give with Purpose",
+      description: "Select items to donate or contribute funds, trusting God to multiply your gifts."
     },
     {
       icon: HandHelping,
-      title: "Make a Difference",
-      description: "Your contributions directly support individuals and communities in need."
+      title: "Serve with Love",
+      description: "Your contributions directly support individuals and communities, showing Christ's love."
     },
     {
-      icon: Users,
-      title: "Track Progress",
-      description: "Watch as community contributions come together to meet project goals."
+      icon: Heart,
+      title: "Pray & Follow Up",
+      description: "Continue in prayer for those served and watch how God works through the community."
     }
   ];
 
@@ -74,7 +74,7 @@ const HowItWorks = () => {
                 How GivingPacks Works
               </h1>
               <p className="text-xl text-gray-600">
-                Join us in making a meaningful impact through efficient and transparent giving
+                Join us in faith-based giving, where prayer guides our generosity and God multiplies our impact
               </p>
             </motion.div>
           </div>
@@ -139,6 +139,26 @@ const HowItWorks = () => {
                 </motion.div>
               ))}
             </div>
+            
+            {/* Prayer Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="mt-16 p-8 rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 text-center"
+            >
+              <Heart className="w-16 h-16 text-primary mx-auto mb-6" />
+              <h3 className="text-2xl font-semibold mb-4">Join Us in Prayer</h3>
+              <p className="text-gray-700 text-lg mb-6 max-w-2xl mx-auto">
+                "And God is able to bless you abundantly, so that in all things at all times, having all that you need, you will abound in every good work." - 2 Corinthians 9:8
+              </p>
+              <p className="text-gray-600 mb-8 max-w-xl mx-auto">
+                Before you give, we encourage you to pray for those you'll be serving and ask God to guide your generosity. Together, let's trust Him to multiply our efforts and create lasting impact.
+              </p>
+              <Button asChild size="lg" className="elegant-gradient text-white hover-lift">
+                <Link to="/projects">Start Giving with Prayer</Link>
+              </Button>
+            </motion.div>
           </div>
         </section>
       </main>

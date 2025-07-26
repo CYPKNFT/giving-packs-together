@@ -52,54 +52,49 @@ const UrgencyBanner = ({
   const remaining = targetAmount - currentAmount;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 backdrop-blur-md bg-gradient-to-r from-orange-500/90 to-red-500/90 text-white shadow-lg border-t border-white/20">
-      <div className="container mx-auto px-4 py-3">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2">
-              <div className="animate-pulse">
-                <Zap className="w-5 h-5 text-yellow-300" />
+    <div className="fixed bottom-0 left-0 right-0 z-50 backdrop-blur-md bg-gradient-to-r from-primary to-primary-dark text-white elegant-shadow border-t border-white/20">
+      <div className="container mx-auto px-4 py-4">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
+              <div className="animate-pulse-glow">
+                <Target className="w-6 h-6 text-primary-glow" />
               </div>
-              <Badge variant="secondary" className="bg-white/20 text-white font-bold border-white/30">
-                🎯 CHALLENGE
-              </Badge>
+              <div className="bg-gradient-to-r from-white/20 to-white/10 px-3 py-1 rounded-full border border-white/30">
+                <span className="font-bold text-sm">URGENT CHALLENGE</span>
+              </div>
             </div>
             <div>
-              <span className="font-bold text-lg">
-                {matchingFund ? "🚀 Double Impact Challenge!" : "🎯 Final Sprint!"}
-              </span>
-              <p className="text-sm opacity-90">
-                {matchingFund 
-                  ? "Every $ = $2 impact until " + new Date(endDate).toLocaleDateString()
-                  : `Join the mission to reach $${targetAmount.toLocaleString()}`}
+              <h3 className="font-bold text-lg">Emergency Food Relief Drive</h3>
+              <p className="text-sm text-white/90">
+                Help us reach our goal • {timeLeft} remaining
               </p>
             </div>
           </div>
           
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1 text-center">
-              <Clock className="w-4 h-4" />
-              <div>
-                <div className="text-lg font-bold">{timeLeft}</div>
-                <div className="text-xs opacity-75">left</div>
-              </div>
+          <div className="flex items-center gap-6">
+            <div className="text-center">
+              <div className="text-2xl font-bold">{Math.round(progress)}%</div>
+              <div className="text-xs text-white/75">Complete</div>
             </div>
             
-            <div className="hidden md:flex items-center gap-2">
-              <Target className="w-4 h-4" />
-              <div className="w-32">
-                <Progress value={progress} className="bg-white/20 h-2" />
-                <div className="text-xs mt-1 text-center">
-                  ${remaining.toLocaleString()} to go
-                </div>
+            <div className="hidden md:block">
+              <div className="w-40 bg-white/20 rounded-full h-3 overflow-hidden">
+                <div 
+                  className="h-full bg-gradient-to-r from-primary-glow to-white smooth-transition"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+              <div className="text-xs mt-1 text-center text-white/75">
+                ${remaining.toLocaleString()} needed
               </div>
             </div>
 
             <Button 
-              size="sm" 
-              className="bg-white text-orange-600 hover:bg-white/90 font-bold"
+              size="lg" 
+              className="bg-white text-primary hover:bg-white/90 font-bold hover-lift smooth-transition px-6"
             >
-              Join Challenge
+              Donate Now
             </Button>
           </div>
         </div>

@@ -32,7 +32,7 @@ const Hero = () => {
                 asChild 
                 variant="outline" 
                 size="lg" 
-                className="glass-effect border-white text-white hover:bg-white hover:text-primary smooth-transition"
+                className="border-white/50 bg-white/10 text-white hover:bg-white hover:text-primary smooth-transition backdrop-blur-md"
               >
                 <Link to="/how-it-works">Learn How It Works</Link>
               </Button>

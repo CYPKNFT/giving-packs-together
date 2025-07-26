@@ -1,12 +1,15 @@
 // Mock data for development
 import type { MockProject, MockCategory } from "@/types";
 
+import communityImage from '@/assets/community-category.jpg';
+import environmentImage from '@/assets/environment-category.jpg';
+
 export const mockCategories: MockCategory[] = [
   {
     id: "category-1",
-    title: "Homeless Support",
-    description: "Projects providing essential items and support for homeless individuals and families.",
-    imageUrl: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9",
+    title: "Community",
+    description: "Local community development and social programs",
+    imageUrl: communityImage,
     projectCount: 12,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString()
@@ -14,17 +17,17 @@ export const mockCategories: MockCategory[] = [
   {
     id: "category-2",
     title: "Education",
-    description: "Support educational initiatives for underprivileged children and communities.",
-    imageUrl: "https://images.unsplash.com/photo-1721322800607-8c38375eef04",
+    description: "Educational resources and school supplies",
+    imageUrl: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6",
     projectCount: 8,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString()
   },
   {
     id: "category-3",
-    title: "Animal Welfare",
-    description: "Help animals in need through shelters, rescue operations, and care packages.",
-    imageUrl: "https://images.unsplash.com/photo-1535268647677-300dbf3d78d1",
+    title: "Environment",
+    description: "Environmental conservation and sustainability projects",
+    imageUrl: environmentImage,
     projectCount: 6,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString()
@@ -32,18 +35,27 @@ export const mockCategories: MockCategory[] = [
   {
     id: "category-4",
     title: "Food Security",
-    description: "Projects focused on addressing hunger and food insecurity in communities.",
-    imageUrl: "https://images.unsplash.com/photo-1465379944081-7f47de8d74ac",
+    description: "Nutrition assistance and food programs",
+    imageUrl: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9",
     projectCount: 9,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString()
   },
   {
     id: "category-5",
-    title: "Farm & Agriculture",
-    description: "Supporting sustainable farming practices and agricultural development.",
-    imageUrl: "https://images.unsplash.com/photo-1452378174528-3090a4bba7b2",
+    title: "Healthcare",
+    description: "Medical supplies and healthcare support",
+    imageUrl: "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b",
     projectCount: 5,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString()
+  },
+  {
+    id: "category-6",
+    title: "Housing Assistance", 
+    description: "Support for temporary and permanent housing solutions",
+    imageUrl: "https://images.unsplash.com/photo-1721322800607-8c38375eef04",
+    projectCount: 7,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString()
   }
