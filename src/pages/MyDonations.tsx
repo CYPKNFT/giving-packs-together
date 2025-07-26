@@ -1,17 +1,22 @@
 
 import { Navigate, Link } from 'react-router-dom';
+import { useState } from 'react';
 import { useAuth } from "@/contexts/AuthContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Calendar, Heart, Package, DollarSign, Search } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Calendar, Heart, Package, DollarSign, Search, Users, TrendingUp, Target, Award, Clock, Filter } from "lucide-react";
 import CommunitySpotlight from "@/components/CommunitySpotlight";
 import UrgencyBanner from "@/components/UrgencyBanner";
 
 const MyDonations = () => {
   const { user, loading } = useAuth();
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   // Show loading state while checking authentication
   if (loading) {
@@ -71,9 +76,75 @@ const MyDonations = () => {
 
   const totalProjects = donations.length;
 
+  // Filter donations by category
+  const filteredDonations = selectedCategory === "all" 
+    ? donations 
+    : donations.filter(d => d.organization.toLowerCase().includes(selectedCategory.toLowerCase()));
+
   // Mock urgency banner data - show if active campaigns need urgent support
   const showUrgencyBanner = true; // In real app, this would be determined by API data
   const urgencyEndDate = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(); // 5 days from now
+
+  // Enhanced stats data
+  const statsData = [
+    {
+      icon: DollarSign,
+      title: "Total Donated",
+      value: `$${totalDonated}`,
+      color: "from-purple-500 to-purple-600",
+      bgColor: "from-purple-50 to-purple-100"
+    },
+    {
+      icon: Heart,
+      title: "Projects Supported", 
+      value: `${totalProjects}`,
+      color: "from-blue-500 to-blue-600",
+      bgColor: "from-blue-50 to-blue-100"
+    },
+    {
+      icon: Package,
+      title: "Lives Impacted",
+      value: "12",
+      color: "from-green-500 to-green-600", 
+      bgColor: "from-green-50 to-green-100"
+    },
+    {
+      icon: Users,
+      title: "Families Helped",
+      value: "8",
+      color: "from-orange-500 to-orange-600",
+      bgColor: "from-orange-50 to-orange-100"
+    },
+    {
+      icon: TrendingUp,
+      title: "This Month",
+      value: "$25",
+      color: "from-teal-500 to-teal-600",
+      bgColor: "from-teal-50 to-teal-100"
+    },
+    {
+      icon: Target,
+      title: "Goal Progress",
+      value: "75%",
+      color: "from-pink-500 to-pink-600",
+      bgColor: "from-pink-50 to-pink-100"
+    },
+    {
+      icon: Award,
+      title: "Donor Level",
+      value: "Silver",
+      color: "from-indigo-500 to-indigo-600", 
+      bgColor: "from-indigo-50 to-indigo-100"
+    },
+    {
+      icon: Search,
+      title: "Explore",
+      value: "Find Projects",
+      color: "from-gray-500 to-gray-600",
+      bgColor: "from-gray-50 to-gray-100",
+      isLink: true
+    }
+  ];
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -99,41 +170,34 @@ const MyDonations = () => {
         {/* Stats Section */}
         <section className="py-16 bg-gradient-subtle relative">
           <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
-                <Card className="soft-shadow hover-lift smooth-transition">
-                  <CardContent className="p-8 text-center bg-gradient-to-br from-primary/5 to-primary/10">
-                    <DollarSign className="w-16 h-16 text-primary mx-auto mb-4" />
-                    <h3 className="text-3xl font-bold mb-2 text-gray-900">${totalDonated}</h3>
-                    <p className="text-gray-600 font-medium">Total Donated</p>
-                  </CardContent>
-                </Card>
-                
-                <Card className="soft-shadow hover-lift smooth-transition">
-                  <CardContent className="p-8 text-center bg-gradient-to-br from-blue-50 to-blue-100">
-                    <Heart className="w-16 h-16 text-blue-600 mx-auto mb-4" />
-                    <h3 className="text-3xl font-bold mb-2 text-gray-900">{totalProjects}</h3>
-                    <p className="text-gray-600 font-medium">Projects Supported</p>
-                  </CardContent>
-                </Card>
-                
-                <Card className="soft-shadow hover-lift smooth-transition">
-                  <CardContent className="p-8 text-center bg-gradient-to-br from-green-50 to-green-100">
-                    <Package className="w-16 h-16 text-green-600 mx-auto mb-4" />
-                    <h3 className="text-3xl font-bold mb-2 text-gray-900">12</h3>
-                    <p className="text-gray-600 font-medium">Lives Impacted</p>
-                  </CardContent>
-                </Card>
-
-                <Card className="soft-shadow hover-lift smooth-transition cursor-pointer group">
-                  <CardContent className="p-8 text-center bg-gradient-to-br from-orange-50 to-orange-100">
-                    <Link to="/projects" className="block">
-                      <Search className="w-16 h-16 text-orange-600 mx-auto mb-4 group-hover:scale-110 smooth-transition" />
-                      <h3 className="text-xl font-bold mb-2 text-gray-900">Explore</h3>
-                      <p className="text-gray-600 font-medium">Find Projects</p>
-                    </Link>
-                  </CardContent>
-                </Card>
+            <div className="max-w-6xl mx-auto">
+              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4 mb-16">
+                {statsData.map((stat, index) => (
+                  <Card key={stat.title} className={`group cursor-pointer transform transition-all duration-300 hover:scale-105 hover:-translate-y-1 soft-shadow border-0 bg-gradient-to-br ${stat.bgColor} hover:shadow-xl`}>
+                    <CardContent className="p-4 text-center relative overflow-hidden">
+                      {/* Animated background element */}
+                      <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`} />
+                      
+                      {stat.isLink ? (
+                        <Link to="/projects" className="block relative z-10">
+                          <div className={`w-10 h-10 mx-auto mb-3 rounded-full bg-gradient-to-br ${stat.color} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                            <stat.icon className="w-5 h-5 text-white" />
+                          </div>
+                          <h3 className="text-sm font-bold mb-1 text-gray-900">{stat.value}</h3>
+                          <p className="text-xs text-gray-600 font-medium">{stat.title}</p>
+                        </Link>
+                      ) : (
+                        <div className="relative z-10">
+                          <div className={`w-10 h-10 mx-auto mb-3 rounded-full bg-gradient-to-br ${stat.color} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                            <stat.icon className="w-5 h-5 text-white" />
+                          </div>
+                          <h3 className="text-sm font-bold mb-1 text-gray-900">{stat.value}</h3>
+                          <p className="text-xs text-gray-600 font-medium">{stat.title}</p>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
 
               {/* Community Spotlight Banner */}
@@ -142,78 +206,97 @@ const MyDonations = () => {
           </div>
         </section>
 
-        {/* Recent Donations Section */}
-        <section className="py-16 bg-white">
+        {/* Recent Donations Button */}
+        <section className="py-8 bg-white">
           <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
-              <div className="space-y-6">
-                <h2 className="text-3xl font-bold mb-8 text-center">Recent Donations</h2>
-                
-                {donations.map((donation) => (
-                  <Card key={donation.id} className="soft-shadow hover-lift smooth-transition">
-                    <CardHeader className="bg-gradient-to-r from-primary/5 to-primary/10">
-                      <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-                        <div className="flex-1">
-                          <CardTitle className="text-xl mb-2 text-gray-900">{donation.projectTitle}</CardTitle>
-                          <p className="text-gray-600 font-medium">{donation.organization}</p>
-                        </div>
-                        <div className="mt-4 md:mt-0 flex flex-col items-end gap-2">
-                          <Badge 
-                            variant={
-                              donation.status === 'completed' ? 'default' :
-                              donation.status === 'delivered' ? 'default' :
-                              'secondary'
-                            }
-                            className="font-medium"
-                          >
-                            {donation.status.charAt(0).toUpperCase() + donation.status.slice(1)}
-                          </Badge>
-                          <div className="flex items-center text-sm text-gray-500">
-                            <Calendar className="w-4 h-4 mr-1" />
-                            {new Date(donation.date).toLocaleDateString()}
-                          </div>
-                        </div>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="p-6">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div>
-                          <h4 className="font-semibold mb-3 text-gray-900">Your Contribution</h4>
-                          {donation.type === 'monetary' ? (
-                            <p className="text-3xl font-bold text-primary">${donation.amount}</p>
-                          ) : (
-                            <div className="space-y-2">
-                              {donation.items?.map((item, index) => (
-                                <Badge key={index} variant="outline" className="mr-2">{item}</Badge>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                        <div>
-                          <h4 className="font-semibold mb-3 text-gray-900">Impact</h4>
-                          <p className="text-gray-700 leading-relaxed">{donation.impact}</p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+            <div className="max-w-4xl mx-auto text-center">
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button size="lg" className="elegant-gradient text-white hover-lift smooth-transition px-8">
+                    <Clock className="w-5 h-5 mr-2" />
+                    View Recent Donations
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-4xl max-h-[80vh]">
+                  <DialogHeader>
+                    <DialogTitle className="text-2xl font-bold flex items-center gap-2">
+                      <Heart className="w-6 h-6 text-primary" />
+                      Recent Donations
+                    </DialogTitle>
+                  </DialogHeader>
+                  
+                  {/* Category Filter */}
+                  <div className="flex items-center gap-4 mb-4">
+                    <Filter className="w-5 h-5 text-gray-500" />
+                    <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                      <SelectTrigger className="w-48">
+                        <SelectValue placeholder="Filter by category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Donations</SelectItem>
+                        <SelectItem value="education">Education</SelectItem>
+                        <SelectItem value="food">Food Security</SelectItem>
+                        <SelectItem value="health">Healthcare</SelectItem>
+                        <SelectItem value="shelter">Housing</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
 
-              {/* Empty State for no donations */}
-              {donations.length === 0 && (
-                <Card>
-                  <CardContent className="p-12 text-center">
-                    <Heart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold mb-4">No donations yet</h3>
-                    <p className="text-gray-600 mb-6">
-                      Start making a difference by supporting projects that matter to you.
-                    </p>
-                    <Button asChild>
-                      <Link to="/projects">Browse Projects</Link>
-                    </Button>
-                  </CardContent>
-                </Card>
-              )}
+                  {/* Scrollable donations list */}
+                  <ScrollArea className="h-[500px] pr-4">
+                    <div className="space-y-4">
+                      {filteredDonations.map((donation) => (
+                        <Card key={donation.id} className="soft-shadow hover-lift smooth-transition">
+                          <CardHeader className="bg-gradient-to-r from-primary/5 to-primary/10 pb-3">
+                            <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+                              <div className="flex-1">
+                                <CardTitle className="text-lg mb-1 text-gray-900">{donation.projectTitle}</CardTitle>
+                                <p className="text-gray-600 font-medium text-sm">{donation.organization}</p>
+                              </div>
+                              <div className="mt-2 md:mt-0 flex flex-col items-end gap-2">
+                                <Badge 
+                                  variant={
+                                    donation.status === 'completed' ? 'default' :
+                                    donation.status === 'delivered' ? 'default' :
+                                    'secondary'
+                                  }
+                                  className="font-medium"
+                                >
+                                  {donation.status.charAt(0).toUpperCase() + donation.status.slice(1)}
+                                </Badge>
+                                <div className="flex items-center text-xs text-gray-500">
+                                  <Calendar className="w-3 h-3 mr-1" />
+                                  {new Date(donation.date).toLocaleDateString()}
+                                </div>
+                              </div>
+                            </div>
+                          </CardHeader>
+                          <CardContent className="p-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                              <div>
+                                <h4 className="font-semibold mb-2 text-gray-900 text-sm">Your Contribution</h4>
+                                {donation.type === 'monetary' ? (
+                                  <p className="text-2xl font-bold text-primary">${donation.amount}</p>
+                                ) : (
+                                  <div className="space-y-1">
+                                    {donation.items?.map((item, index) => (
+                                      <Badge key={index} variant="outline" className="mr-1 text-xs">{item}</Badge>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                              <div>
+                                <h4 className="font-semibold mb-2 text-gray-900 text-sm">Impact</h4>
+                                <p className="text-gray-700 leading-relaxed text-sm">{donation.impact}</p>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  </ScrollArea>
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
         </section>
