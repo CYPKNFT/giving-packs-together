@@ -143,6 +143,45 @@ export type Database = {
           },
         ]
       }
+      organization_applications: {
+        Row: {
+          contact_email: string
+          contact_name: string
+          created_at: string | null
+          description: string | null
+          feedback: string | null
+          id: string
+          name: string
+          status: string | null
+          updated_at: string | null
+          website_url: string | null
+        }
+        Insert: {
+          contact_email: string
+          contact_name: string
+          created_at?: string | null
+          description?: string | null
+          feedback?: string | null
+          id?: string
+          name: string
+          status?: string | null
+          updated_at?: string | null
+          website_url?: string | null
+        }
+        Update: {
+          contact_email?: string
+          contact_name?: string
+          created_at?: string | null
+          description?: string | null
+          feedback?: string | null
+          id?: string
+          name?: string
+          status?: string | null
+          updated_at?: string | null
+          website_url?: string | null
+        }
+        Relationships: []
+      }
       organizations: {
         Row: {
           created_at: string | null
@@ -249,6 +288,51 @@ export type Database = {
             columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      project_reviews: {
+        Row: {
+          created_at: string | null
+          feedback: string | null
+          id: string
+          project_id: string | null
+          reviewer_id: string | null
+          status: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          feedback?: string | null
+          id?: string
+          project_id?: string | null
+          reviewer_id?: string | null
+          status: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          feedback?: string | null
+          id?: string
+          project_id?: string | null
+          reviewer_id?: string | null
+          status?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_reviews_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_reviews_reviewer_id_fkey"
+            columns: ["reviewer_id"]
+            isOneToOne: false
+            referencedRelation: "admin_users"
             referencedColumns: ["id"]
           },
         ]

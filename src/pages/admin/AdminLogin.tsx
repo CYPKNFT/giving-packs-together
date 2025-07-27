@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Separator } from "@/components/ui/separator";
-import { supabase } from '@/integrations/supabase/client';
+import { useAdmin } from '@/contexts/AdminContext';
 import { 
   Building2, 
   Shield, 
@@ -22,6 +22,7 @@ const AdminLogin = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { signIn } = useAdmin();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,34 +30,18 @@ const AdminLogin = () => {
     setError('');
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (error) {
-        setError(error.message);
+      const { error: signInError } = await signIn(email, password);
+      
+      if (signInError) {
+        setError('Invalid email or password, or you do not have admin access.');
+        setLoading(false);
         return;
       }
 
-      // Check if user is admin
-      const { data: adminData, error: adminError } = await supabase
-        .from('admin_users')
-        .select('*')
-        .eq('email', email)
-        .eq('active', true)
-        .single();
-
-      if (adminError || !adminData) {
-        setError('You do not have admin access to this system.');
-        await supabase.auth.signOut();
-        return;
-      }
-
+      // Redirect will be handled by AdminContext and route protection
       navigate('/admin/dashboard');
     } catch (err) {
       setError('An unexpected error occurred. Please try again.');
-    } finally {
       setLoading(false);
     }
   };

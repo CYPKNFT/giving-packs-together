@@ -23,6 +23,7 @@ import AdminRegister from "./pages/admin/AdminRegister";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminProjects from "./pages/admin/AdminProjects";
 import AdminOrganization from "./pages/admin/AdminOrganization";
+import AdminCreateProject from "./pages/admin/AdminCreateProject";
 import { AdminProvider } from "./contexts/AdminContext";
 import AdminProtectedRoute from "./components/AdminProtectedRoute";
 
@@ -89,6 +90,14 @@ const App = () => {
               element={
                 <AdminProtectedRoute>
                   <AdminProjects />
+                </AdminProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/admin/create-project" 
+              element={
+                <AdminProtectedRoute requiredRole="org_admin">
+                  <AdminCreateProject />
                 </AdminProtectedRoute>
               } 
             />
