@@ -6,9 +6,13 @@ export const useCategories = () => {
   return useQuery({
     queryKey: ['categories'],
     queryFn: async (): Promise<Category[]> => {
+      // Fetch categories with project counts
       const { data, error } = await supabase
         .from('categories')
-        .select('*')
+        .select(`
+          *,
+          projects(count)
+        `)
         .order('name');
 
       if (error) {
@@ -21,7 +25,7 @@ export const useCategories = () => {
         title: category.name,
         description: category.description || '',
         imageUrl: category.image_url || '',
-        projectCount: 0, // Will be calculated separately if needed
+        projectCount: category.projects?.length || 0,
         created_at: category.created_at,
         updated_at: category.created_at
       }));

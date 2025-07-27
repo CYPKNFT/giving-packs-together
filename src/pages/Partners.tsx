@@ -230,7 +230,7 @@ const Partners = () => {
                 Start Partnership Discussion
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-              <Button size="lg" variant="outline" className="text-lg px-8 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
+              <Button size="lg" variant="secondary" className="text-lg px-8">
                 Download Partnership Guide
               </Button>
             </div>
