@@ -59,6 +59,9 @@ const Navbar = () => {
           <Link to="/how-it-works" className="text-gray-700 hover:text-primary font-medium story-link smooth-transition">
             How It Works
           </Link>
+          <Link to="/partners" className="text-gray-700 hover:text-primary font-medium story-link smooth-transition">
+            Partners
+          </Link>
           {user ? (
             <>
               <Link to="/dashboard" className="text-gray-700 hover:text-primary font-medium story-link smooth-transition">
@@ -119,6 +122,9 @@ const Navbar = () => {
             </Link>
             <Link to="/how-it-works" className="text-gray-700 hover:text-primary font-medium py-2" onClick={toggleMenu}>
               How It Works
+            </Link>
+            <Link to="/partners" className="text-gray-700 hover:text-primary font-medium py-2" onClick={toggleMenu}>
+              Partners
             </Link>
             {user ? (
               <>
