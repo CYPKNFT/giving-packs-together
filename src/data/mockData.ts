@@ -43,18 +43,18 @@ export const mockCategories: MockCategory[] = [
   },
   {
     id: "category-5",
-    title: "Healthcare",
-    description: "Medical supplies and healthcare support",
-    imageUrl: "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b",
+    title: "Animal Welfare",
+    description: "Support for animal rescue, shelter, and care programs",
+    imageUrl: "https://images.unsplash.com/photo-1441057206919-63d19fac2369",
     projectCount: 5,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString()
   },
   {
     id: "category-6",
-    title: "Housing Assistance", 
-    description: "Support for temporary and permanent housing solutions",
-    imageUrl: "https://images.unsplash.com/photo-1721322800607-8c38375eef04",
+    title: "Emergency Relief", 
+    description: "Disaster response and emergency aid distribution",
+    imageUrl: "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca",
     projectCount: 7,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString()
