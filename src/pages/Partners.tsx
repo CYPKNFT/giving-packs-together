@@ -97,12 +97,16 @@ const Partners = () => {
                 in communities worldwide. Together, we can achieve more.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="text-lg px-8">
-                  Become a Partner
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                <Button size="lg" className="text-lg px-8" asChild>
+                  <Link to="/start-project">
+                    Become a Partner
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Link>
                 </Button>
-                <Button variant="outline" size="lg" className="text-lg px-8">
-                  Learn More
+                <Button variant="outline" size="lg" className="text-lg px-8" asChild>
+                  <Link to="/about">
+                    Learn More
+                  </Link>
                 </Button>
               </div>
             </div>
@@ -340,8 +344,10 @@ const Partners = () => {
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
-              <Button size="lg" variant="secondary" className="text-lg px-8">
-                Download Partnership Guide
+              <Button size="lg" variant="secondary" className="text-lg px-8" asChild>
+                <a href="/partnership-guide.pdf" download="GivingPacks-Partnership-Guide.pdf">
+                  Download Partnership Guide
+                </a>
               </Button>
             </div>
           </div>
