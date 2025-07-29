@@ -1,8 +1,9 @@
 // Mock data for development
 import type { MockProject, MockCategory } from "@/types";
 
-import communityImage from '@/assets/community-category.jpg?url';
-import environmentImage from '@/assets/environment-category.jpg?url';
+import communityImage from '@/assets/community-category.jpg';
+import environmentImage from '@/assets/environment-category.jpg';
+import healthcareImage from '@/assets/healthcare-category.jpg';
 
 export const mockCategories: MockCategory[] = [
   {
@@ -43,9 +44,9 @@ export const mockCategories: MockCategory[] = [
   },
   {
     id: "category-5",
-    title: "Animal Welfare",
-    description: "Support for animal rescue, shelter, and care programs",
-    imageUrl: "https://images.unsplash.com/photo-1441057206919-63d19fac2369",
+    title: "Healthcare",
+    description: "Medical supplies and healthcare support programs",
+    imageUrl: healthcareImage,
     projectCount: 5,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString()
