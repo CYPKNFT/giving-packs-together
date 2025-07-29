@@ -1,8 +1,8 @@
 // Mock data for development
 import type { MockProject, MockCategory } from "@/types";
 
-import communityImage from '@/assets/community-category.jpg';
-import environmentImage from '@/assets/environment-category.jpg';
+import communityImage from '@/assets/community-category.jpg?url';
+import environmentImage from '@/assets/environment-category.jpg?url';
 
 export const mockCategories: MockCategory[] = [
   {
