@@ -334,9 +334,11 @@ const Partners = () => {
               Join our network of partners and let's create positive change together
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="secondary" className="text-lg px-8">
-                Start Partnership Discussion
-                <ArrowRight className="ml-2 h-5 w-5" />
+              <Button size="lg" variant="secondary" className="text-lg px-8" asChild>
+                <Link to="/start-project">
+                  Start Partnership Discussion
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
               </Button>
               <Button size="lg" variant="secondary" className="text-lg px-8">
                 Download Partnership Guide

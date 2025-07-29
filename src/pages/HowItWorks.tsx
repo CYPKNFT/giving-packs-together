@@ -153,6 +153,46 @@ const HowItWorks = () => {
               ))}
             </div>
             
+            {/* FAQ Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="mt-16 p-8 rounded-2xl bg-gray-50"
+            >
+              <h3 className="text-2xl font-semibold mb-8 text-center">Frequently Asked Questions</h3>
+              <div className="grid gap-6 md:grid-cols-2">
+                <div className="space-y-6">
+                  <div>
+                    <h4 className="font-semibold text-lg mb-2">How do I know my donation is secure?</h4>
+                    <p className="text-gray-600">All transactions are processed through secure payment gateways. We also verify every project and organization before listing them on our platform.</p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-lg mb-2">Can I track the impact of my donation?</h4>
+                    <p className="text-gray-600">Yes! You'll receive updates on how your donations are being used and the impact they're creating in real-time through our tracking system.</p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-lg mb-2">What types of projects can I support?</h4>
+                    <p className="text-gray-600">We support various categories including education, healthcare, emergency relief, community development, environmental projects, and animal welfare.</p>
+                  </div>
+                </div>
+                <div className="space-y-6">
+                  <div>
+                    <h4 className="font-semibold text-lg mb-2">How much of my donation goes to overhead?</h4>
+                    <p className="text-gray-600">We maintain minimal overhead costs to ensure the maximum amount of your donation reaches those in need. Typically, 85-95% goes directly to the project.</p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-lg mb-2">Can I donate items instead of money?</h4>
+                    <p className="text-gray-600">Many projects accept specific item donations. Check each project's needs list to see what items they're requesting and how to donate them.</p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-lg mb-2">How do I start my own project?</h4>
+                    <p className="text-gray-600">Organizations can apply to list their projects through our verification process. Visit our Start a Project page to learn more about requirements and the application process.</p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
             {/* Prayer Section */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
