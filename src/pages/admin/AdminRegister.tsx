@@ -74,6 +74,16 @@ const AdminRegister = () => {
       });
 
       if (authError) throw authError;
+      if (!authResult.user) throw new Error('User creation failed');
+
+      // Wait for the session to be established
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Verify session is available
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        throw new Error('Authentication session not established. Please try logging in.');
+      }
 
       // Create organization
       const { data: org, error: orgError } = await supabase
@@ -93,7 +103,7 @@ const AdminRegister = () => {
       const { error: adminError } = await supabase
         .from('admin_users')
         .insert({
-          user_id: authResult.user!.id,
+          user_id: authResult.user.id,
           email: authData.email,
           role: 'org_admin',
           organization_id: org.id,
