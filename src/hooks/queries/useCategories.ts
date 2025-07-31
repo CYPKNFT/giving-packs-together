@@ -25,7 +25,7 @@ export const useCategories = () => {
         title: category.name,
         description: category.description || '',
         imageUrl: category.image_url || '',
-        projectCount: category.projects?.length || 0,
+        projectCount: Array.isArray(category.projects) ? category.projects[0]?.count || 0 : 0,
         created_at: category.created_at,
         updated_at: category.created_at
       }));
