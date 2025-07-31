@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import HeroGallery from "./HeroGallery";
 
 const Hero = () => {
   return (
@@ -38,12 +39,8 @@ const Hero = () => {
               </Button>
             </div>
           </div>
-          <div className="md:w-1/2 flex justify-center animate-scale-in" style={{animationDelay: '0.6s'}}>
-            <img 
-              src="https://images.unsplash.com/photo-1618160702438-9b02ab6515c9" 
-              alt="People helping others" 
-              className="rounded-lg elegant-shadow max-w-full md:max-w-md hover-scale smooth-transition"
-            />
+          <div className="md:w-1/2 animate-scale-in" style={{animationDelay: '0.6s'}}>
+            <HeroGallery />
           </div>
         </div>
       </div>
