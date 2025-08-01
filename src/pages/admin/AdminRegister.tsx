@@ -61,14 +61,11 @@ const AdminRegister = () => {
 
     setIsLoading(true);
     try {
-      // Sign up user with email redirect
-      const redirectUrl = `${window.location.origin}/admin/complete-registration`;
-      
+      // Sign up user and directly create records (since email confirmation is disabled for testing)
       const { data: authResult, error: authError } = await supabase.auth.signUp({
         email: authData.email,
         password: authData.password,
         options: {
-          emailRedirectTo: redirectUrl,
           data: {
             first_name: authData.firstName,
             last_name: authData.lastName,
@@ -83,12 +80,52 @@ const AdminRegister = () => {
 
       if (authError) throw authError;
 
-      toast({
-        title: "Registration started!",
-        description: "Please check your email and click the confirmation link to complete your registration."
-      });
+      // If user is immediately available (email confirmation disabled), create records now
+      if (authResult.user && !authResult.user.email_confirmed_at) {
+        toast({
+          title: "Registration started!",
+          description: "Please check your email and click the confirmation link to complete your registration."
+        });
+        navigate('/admin/login');
+        return;
+      }
 
-      navigate('/admin/login');
+      // If user is immediately confirmed, create organization and admin records
+      if (authResult.user && authResult.session) {
+        // Create organization
+        const { data: org, error: orgError } = await supabase
+          .from('organizations')
+          .insert({
+            name: orgData.name,
+            description: orgData.description,
+            website_url: orgData.website,
+            verified: orgData.hasDocuments || false
+          })
+          .select()
+          .single();
+
+        if (orgError) throw orgError;
+
+        // Create admin user
+        const { error: adminError } = await supabase
+          .from('admin_users')
+          .insert({
+            user_id: authResult.user.id,
+            email: authResult.user.email!,
+            role: 'org_admin',
+            organization_id: org.id,
+            active: true
+          });
+
+        if (adminError) throw adminError;
+
+        toast({
+          title: "Registration completed!",
+          description: "Your organization has been created successfully."
+        });
+
+        navigate('/admin/dashboard');
+      }
     } catch (error: any) {
       toast({
         title: "Registration failed",
