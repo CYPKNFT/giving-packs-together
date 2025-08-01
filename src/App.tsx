@@ -21,6 +21,7 @@ import StartProject from "./pages/StartProject";
 import Partners from "./pages/Partners";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminRegister from "./pages/admin/AdminRegister";
+import CompleteRegistration from "./pages/admin/CompleteRegistration";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminProjects from "./pages/admin/AdminProjects";
 import AdminOrganization from "./pages/admin/AdminOrganization";
@@ -71,6 +72,7 @@ const App = () => {
             {/* Admin Routes */}
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/register" element={<AdminRegister />} />
+            <Route path="/admin/complete-registration" element={<CompleteRegistration />} />
             <Route 
               path="/admin/dashboard" 
               element={

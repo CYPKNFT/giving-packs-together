@@ -61,60 +61,31 @@ const AdminRegister = () => {
 
     setIsLoading(true);
     try {
-      // Sign up user
+      // Sign up user with email redirect
+      const redirectUrl = `${window.location.origin}/admin/complete-registration`;
+      
       const { data: authResult, error: authError } = await supabase.auth.signUp({
         email: authData.email,
         password: authData.password,
         options: {
+          emailRedirectTo: redirectUrl,
           data: {
             first_name: authData.firstName,
             last_name: authData.lastName,
+            org_name: orgData.name,
+            org_description: orgData.description,
+            org_website: orgData.website,
+            org_type: orgData.orgType,
+            org_has_documents: orgData.hasDocuments
           }
         }
       });
 
       if (authError) throw authError;
-      if (!authResult.user) throw new Error('User creation failed');
-
-      // Wait for the session to be established
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      // Verify session is available
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        throw new Error('Authentication session not established. Please try logging in.');
-      }
-
-      // Create organization
-      const { data: org, error: orgError } = await supabase
-        .from('organizations')
-        .insert({
-          name: orgData.name,
-          description: orgData.description,
-          website_url: orgData.website,
-          verified: orgData.hasDocuments // Auto-verify if they have documents
-        })
-        .select()
-        .single();
-
-      if (orgError) throw orgError;
-
-      // Create admin user
-      const { error: adminError } = await supabase
-        .from('admin_users')
-        .insert({
-          user_id: authResult.user.id,
-          email: authData.email,
-          role: 'org_admin',
-          organization_id: org.id,
-          active: true
-        });
-
-      if (adminError) throw adminError;
 
       toast({
-        title: "Registration successful!",
-        description: "Check your email to confirm your account."
+        title: "Registration started!",
+        description: "Please check your email and click the confirmation link to complete your registration."
       });
 
       navigate('/admin/login');
