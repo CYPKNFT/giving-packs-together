@@ -15,16 +15,23 @@ const CompleteRegistration = () => {
   useEffect(() => {
     const completeRegistration = async () => {
       try {
+        // Wait a moment for auth to settle
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
         // Get the current session
         const { data: { session }, error: sessionError } = await supabase.auth.getSession();
         
+        console.log('Session check:', { session: !!session, user: !!session?.user, sessionError });
+        
         if (sessionError) throw sessionError;
         if (!session?.user) {
-          throw new Error('No authenticated user found');
+          throw new Error('No authenticated user found. Please try logging in.');
         }
 
         const user = session.user;
         const metadata = user.user_metadata;
+        
+        console.log('User metadata:', metadata);
 
         // Check if organization and admin user already exist
         const { data: existingAdmin } = await supabase
@@ -40,7 +47,13 @@ const CompleteRegistration = () => {
           return;
         }
 
-        // Create organization
+        // Verify we have the required metadata
+        if (!metadata.org_name) {
+          throw new Error('Missing organization information. Please try registering again.');
+        }
+
+        // Create organization with explicit session verification
+        console.log('Creating organization for user:', user.id);
         const { data: org, error: orgError } = await supabase
           .from('organizations')
           .insert({
@@ -52,7 +65,12 @@ const CompleteRegistration = () => {
           .select()
           .single();
 
-        if (orgError) throw orgError;
+        if (orgError) {
+          console.error('Organization creation error:', orgError);
+          throw orgError;
+        }
+
+        console.log('Organization created:', org.id);
 
         // Create admin user
         const { error: adminError } = await supabase
@@ -65,8 +83,12 @@ const CompleteRegistration = () => {
             active: true
           });
 
-        if (adminError) throw adminError;
+        if (adminError) {
+          console.error('Admin user creation error:', adminError);
+          throw adminError;
+        }
 
+        console.log('Admin user created successfully');
         setStatus('success');
         toast({
           title: "Registration completed!",
